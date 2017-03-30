@@ -1,0 +1,109 @@
+pipeline {
+    agent any
+    stages {
+        stage('Begin') {
+            steps {
+                echo "Begin"
+            }
+        }
+        stage('Clean, Prepare, Acquire, Configure, Build, and Test') {
+            // Comment out the deleteDir command from each node if starting from a blank
+            // slate is not desired.
+            steps {
+                parallel (
+                    'Ubuntu 14.04': {
+                    	node('1034_Ubuntu') {
+                            deleteDir()
+                            sh 'mkdir -p opencmiss'
+                            dir('./setup') {
+                                git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
+                            }
+                			dir('./setup-build') {
+                				sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss ../setup'
+                			}
+                			dir('./setup-build') {
+                		    	sh 'make'
+                			}
+                			dir('./opencmiss/build/manage/release/config/Release') {
+                		    	sh 'make keytests'
+                			}
+                    	}
+                    }, 'Ubuntu 16.04': {
+                    	node('Ubuntu 16.04 bioeng49') {
+                            deleteDir()
+                            sh 'mkdir -p opencmiss'
+                            dir('./setup') {
+                                git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
+                            }
+                			dir('./setup-build') {
+                				sh 'cmake -DOPENCMISS_ROOT=../opencmiss ../setup'
+                			}
+                			dir('./setup-build') {
+                		    	sh 'make'
+                			}
+                			dir('./opencmiss/build/manage/release/config/Release') {
+                		    	sh 'make keytests'
+                			}
+                    	}
+                    }, 'HPC 3':{
+                    	node('hpc') {
+                            deleteDir()
+                            sh 'mkdir -p opencmiss'
+                            dir('./setup') {
+                                git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
+                            }
+                			dir('./setup-build') {
+                				sh '/hpc_atog/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss ../setup'
+                			}
+                			dir('./setup-build') {
+                		    	sh 'make'
+                			}
+                			dir('./opencmiss/build/manage/release/config/Release') {
+                		    	sh 'make keytests'
+                			}
+                    	}
+                    }, 'OS X 10.12.3':{
+                    	node('Mac10.12.3') {
+                            deleteDir()
+                            sh 'mkdir -p opencmiss'
+                            dir('./setup') {
+                                git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
+                            }
+                			dir('./setup-build') {
+                				sh '/usr/local/bin/cmake -DOPENCMISS_ROOT=../opencmiss ../setup'
+                			}
+                			dir('./setup-build') {
+                		    	sh 'make'
+                			}
+                			dir('./opencmiss/build/manage/release/config/Release') {
+                		    	sh 'make keytests'
+                			}
+                    	}
+                    }, 'Windows 8':{
+                    	node('Windows8') {
+                            deleteDir()
+                            bat 'if not exist opencmiss mkdir opencmiss'
+                            dir('./setup') {
+                                git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
+                            }
+                			dir('./setup-build') {
+                				bat '"C:\\Program Files\\CMake\\bin\\cmake.exe" -G"Visual Studio 14 2015 Win64" -DOPENCMISS_ROOT=../opencmiss ../setup'
+                			}
+                			dir('./setup-build') {
+                		    	bat '"C:\\Program Files\\CMake\\bin\\cmake.exe" --build . --config Release'
+                			}
+                			dir('./opencmiss/build/manage/config/') {
+                		    	bat '"C:\\Program Files\\CMake\\bin\\cmake.exe" --build . --target keytests --config Release'
+                			}
+                    	}
+                    }
+                )
+            }
+        }
+        stage('Finish') {
+            steps {
+                echo "Finish"
+            }
+        }
+    }
+}
