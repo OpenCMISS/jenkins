@@ -1,0 +1,70 @@
+def clean() {
+    dir ('./setup-build') {
+        deleteDir()
+    }
+    dir ('./opencmiss/build') {
+        deleteDir()
+    }
+    dir ('./opencmiss/install') {
+        deleteDir()
+    }
+}
+
+parallel 'Ubuntu 16.04': {
+    node('Ubuntu 16.04 bioeng49') {
+        stage('Clean') {
+            clean()
+        }
+        stage('Configure') {
+            sh 'mkdir -p opencmiss'
+            dir('./setup') {
+                git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
+            }
+    		dir('./setup-build') {
+    			sh 'cmake -DOPENCMISS_ROOT=../opencmiss ../setup'
+    		}
+        }
+        stage('Make') {
+            dir('./setup-build') {
+            	sh 'make'
+            }
+        }
+        stage('Test') {
+            dir('./opencmiss/build/manage/release/config/Release') {
+                sh 'make keytests'
+            }
+        }
+        stage('Finish') {
+                echo "Finish"
+        }
+    }
+}, 'Ubuntu 14.04': {
+    node('1034_Ubuntu') {
+        stage('Clean') {
+            clean()
+        }
+        stage('Configure') {
+            sh 'mkdir -p opencmiss'
+            dir('./setup') {
+                git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
+            }
+    		dir('./setup-build') {
+    			sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss ../setup'
+    		}
+        }
+        stage('Make') {
+            dir('./setup-build') {
+            	sh 'make'
+            }
+        }
+        stage('Test') {
+            dir('./opencmiss/build/manage/release/config/Release') {
+                sh 'make keytests'
+            }
+        }
+        stage('Finish') {
+                echo "Finish"
+        }
+    }
+}
+
