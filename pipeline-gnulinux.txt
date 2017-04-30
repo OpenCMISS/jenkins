@@ -11,11 +11,13 @@ def clean() {
 }
 
 parallel 'Ubuntu 16.04': {
-    node('Ubuntu 16.04 bioeng49') {
-        stage('Clean') {
-            clean()
+    node('Ubuntu_16.04_bioeng49') {
+        stage('Ubuntu 16.04 Clean') {
+            if (params.BUILD_CLEAN) {
+                clean()
+            }
         }
-        stage('Configure') {
+        stage('Ubuntu 16.04 Configure') {
             sh 'mkdir -p opencmiss'
             dir('./setup') {
                 git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
@@ -24,26 +26,28 @@ parallel 'Ubuntu 16.04': {
     			sh 'cmake -DOPENCMISS_ROOT=../opencmiss ../setup'
     		}
         }
-        stage('Make') {
+        stage('Ubuntu 16.04 Make') {
             dir('./setup-build') {
             	sh 'make'
             }
         }
-        stage('Test') {
+        stage('Ubuntu 16.04 Test') {
             dir('./opencmiss/build/manage/release/config/Release') {
                 sh 'make keytests'
             }
         }
-        stage('Finish') {
+        stage('Ubuntu 16.04 Finish') {
                 echo "Finish"
         }
     }
 }, 'Ubuntu 14.04': {
     node('1034_Ubuntu') {
-        stage('Clean') {
-            clean()
+        stage('Ubuntu 14.04 Clean') {
+            if (params.BUILD_CLEAN) {
+                clean()
+            }
         }
-        stage('Configure') {
+        stage('Ubuntu 14.04 Configure') {
             sh 'mkdir -p opencmiss'
             dir('./setup') {
                 git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
@@ -52,19 +56,18 @@ parallel 'Ubuntu 16.04': {
     			sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss ../setup'
     		}
         }
-        stage('Make') {
+        stage('Ubuntu 14.04 Make') {
             dir('./setup-build') {
             	sh 'make'
             }
         }
-        stage('Test') {
+        stage('Ubuntu 14.04 Test') {
             dir('./opencmiss/build/manage/release/config/Release') {
                 sh 'make keytests'
             }
         }
-        stage('Finish') {
+        stage('Ubuntu 14.04 Finish') {
                 echo "Finish"
         }
     }
 }
-

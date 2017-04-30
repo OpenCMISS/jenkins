@@ -29,7 +29,7 @@ node('Windows8') {
         }
     }
     stage('Test') {
-        dir('./opencmiss/build/manage/release/config/') {
+        dir('./opencmiss/build/manage/config/') {
             bat '"C:\\Program Files\\CMake\\bin\\cmake.exe" --build . --target keytests --config Release'
         }
     }
