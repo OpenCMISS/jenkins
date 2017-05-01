@@ -12,16 +12,18 @@ def clean() {
 
 node('hpc') {
     stage('Clean') {
-        clean()
+        if (params.BUILD_CLEAN) {
+            clean()
+        }
     }
     stage('Configure') {
         sh 'mkdir -p opencmiss'
         dir('./setup') {
             git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
         }
-		dir('./setup-build') {
-			sh '/hpc_atog/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss ../setup'
-		}
+        dir('./setup-build') {
+            sh '/hpc_atog/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss ../setup'
+        }
     }
     stage('Make') {
         dir('./setup-build') {
