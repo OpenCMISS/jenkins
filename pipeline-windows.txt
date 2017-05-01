@@ -12,16 +12,18 @@ def clean() {
 
 node('Windows8') {
     stage('Clean') {
-        clean()
+        if (params.BUILD_CLEAN) {
+            clean()
+        }
     }
     stage('Configure') {
         bat 'if not exist opencmiss mkdir opencmiss'
         dir('./setup') {
             git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
         }
-		dir('./setup-build') {
-			bat '"C:\\Program Files\\CMake\\bin\\cmake.exe" -G"Visual Studio 14 2015 Win64" -DOPENCMISS_ROOT=../opencmiss ../setup'
-		}
+        dir('./setup-build') {
+            bat '"C:\\Program Files\\CMake\\bin\\cmake.exe" -G"Visual Studio 14 2015 Win64" -DOPENCMISS_ROOT=../opencmiss ../setup'
+        }
     }
     stage('Make') {
         dir('./setup-build') {
@@ -36,5 +38,4 @@ node('Windows8') {
     stage('Finish') {
             echo "Finish"
     }
-    
 }
