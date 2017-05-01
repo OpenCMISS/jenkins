@@ -35,6 +35,11 @@ node('Mac10.12.3') {
             sh 'make keytests'
         }
     }
+    stage('Package') {
+        dir('./opencmiss/build/manage/release/') {
+            sh 'make package_usersdk'
+        }
+    }
     stage('Finish') {
             echo "Finish"
     }
