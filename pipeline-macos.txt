@@ -12,16 +12,18 @@ def clean() {
 
 node('Mac10.12.3') {
     stage('Clean') {
-        clean()
+        if (params.BUILD_CLEAN) {
+            clean()
+        }
     }
     stage('Configure') {
         sh 'mkdir -p opencmiss'
         dir('./setup') {
             git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
         }
-		dir('./setup-build') {
-			sh 'cmake -DOPENCMISS_ROOT=../opencmiss ../setup'
-		}
+        dir('./setup-build') {
+            sh 'cmake -DOPENCMISS_ROOT=../opencmiss ../setup'
+        }
     }
     stage('Make') {
         dir('./setup-build') {
@@ -36,5 +38,4 @@ node('Mac10.12.3') {
     stage('Finish') {
             echo "Finish"
     }
-    
 }
