@@ -40,7 +40,12 @@ node('Windows8') {
             bat '"C:\\Program Files\\CMake\\bin\\cmake.exe" --build . --target package_sdk --config Release'
         }
     }
+    stage('Archive') {
+        dir('./opencmiss/build/manage/release/packaging/sdk/package/') {
+            archiveArtifacts artifacts: 'OpenCMISS_Libraries*'
+        }
+    }
     stage('Finish') {
-            echo "Finish"
+        echo "Finish"
     }
 }
