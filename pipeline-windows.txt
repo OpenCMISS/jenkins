@@ -37,7 +37,7 @@ node('Windows8') {
     }
     stage('Package') {
         dir('./opencmiss/build/manage/') {
-            bat '"C:\\Program Files\\CMake\\bin\\cmake.exe" --build . --target package_usersdk --config Release'
+            bat '"C:\\Program Files\\CMake\\bin\\cmake.exe" --build . --target package_sdk --config Release'
         }
     }
     stage('Finish') {
