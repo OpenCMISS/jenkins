@@ -40,7 +40,12 @@ node('Mac10.12.3') {
             sh 'make package_sdk'
         }
     }
+    stage('Archive') {
+        dir('./opencmiss/build/manage/release/packaging/sdk/package/') {
+            archiveArtifacts artifacts: 'OpenCMISS_Libraries*'
+        }
+    }
     stage('Finish') {
-            echo "Finish"
+        echo "Finish"
     }
 }
