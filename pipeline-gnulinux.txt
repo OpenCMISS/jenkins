@@ -40,6 +40,9 @@ parallel 'Ubuntu 16.04': {
             dir('./opencmiss/build/manage/release/') {
                 sh 'make package_sdk'
             }
+        }        
+        stage('Ubuntu 16.04 Archive') {
+                archiveArtifacts artifacts: './opencmiss/build/manage/release/packages/packaging/sdk/package/OpenCMISS_Libraries*'
         }
         stage('Ubuntu 16.04 Finish') {
                 echo "Finish"
@@ -75,6 +78,9 @@ parallel 'Ubuntu 16.04': {
             dir('./opencmiss/build/manage/release/') {
                 sh 'make package_sdk'
             }
+        }
+        stage('Ubuntu 14.04 Archive') {
+                archiveArtifacts artifacts: './opencmiss/build/manage/release/packages/packaging/sdk/package/OpenCMISS_Libraries*'
         }
         stage('Ubuntu 14.04 Finish') {
                 echo "Finish"
