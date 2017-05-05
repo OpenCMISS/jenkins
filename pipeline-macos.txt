@@ -37,7 +37,7 @@ node('Mac10.12.3') {
     }
     stage('Package') {
         dir('./opencmiss/build/manage/release/') {
-            sh 'make package_usersdk'
+            sh 'make package_sdk'
         }
     }
     stage('Finish') {
