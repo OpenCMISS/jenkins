@@ -38,7 +38,7 @@ parallel 'Ubuntu 16.04': {
         }
         stage('Ubuntu 16.04 Package') {
             dir('./opencmiss/build/manage/release/') {
-                sh 'make package_usersdk'
+                sh 'make package_sdk'
             }
         }
         stage('Ubuntu 16.04 Finish') {
@@ -73,7 +73,7 @@ parallel 'Ubuntu 16.04': {
         }
         stage('Ubuntu 14.04 Package') {
             dir('./opencmiss/build/manage/release/') {
-                sh 'make package_usersdk'
+                sh 'make package_sdk'
             }
         }
         stage('Ubuntu 14.04 Finish') {
