@@ -42,7 +42,9 @@ parallel 'Ubuntu 16.04': {
             }
         }        
         stage('Ubuntu 16.04 Archive') {
-                archiveArtifacts artifacts: './opencmiss/build/manage/release/packaging/sdk/package/OpenCMISS_Libraries*'
+            dir('./opencmiss/build/manage/release/packaging/sdk/package/') {
+                archiveArtifacts artifacts: 'OpenCMISS_Libraries*'
+            }
         }
         stage('Ubuntu 16.04 Finish') {
                 echo "Finish"
@@ -80,7 +82,9 @@ parallel 'Ubuntu 16.04': {
             }
         }
         stage('Ubuntu 14.04 Archive') {
-                archiveArtifacts artifacts: './opencmiss/build/manage/release/packaging/sdk/package/OpenCMISS_Libraries*'
+            dir('./opencmiss/build/manage/release/packaging/sdk/package/') {
+                archiveArtifacts artifacts: 'OpenCMISS_Libraries*'
+            }
         }
         stage('Ubuntu 14.04 Finish') {
                 echo "Finish"
