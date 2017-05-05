@@ -41,7 +41,7 @@ node('Windows8') {
         }
     }
     stage('Archive') {
-        dir('./opencmiss/build/manage/release/packaging/sdk/package/') {
+        dir('./opencmiss/build/manage/packaging/sdk/package/') {
             archiveArtifacts artifacts: 'OpenCMISS_Libraries*'
         }
     }
