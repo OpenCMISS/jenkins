@@ -50,8 +50,11 @@ parallel 'Ubuntu 16.04': {
     node('1034_Ubuntu') {
         stage('Ubuntu 14.04 Clean') {
             if (params.BUILD_CLEAN) {
-                clean()
+                cleanSetup()
             }
+        }
+        stage('Ubuntu 14.04 Update') {
+            updateSource()
         }
         stage('Ubuntu 14.04 Configure') {
             sh 'mkdir -p opencmiss'
