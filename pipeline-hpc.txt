@@ -6,7 +6,9 @@ node('hpc') {
         }
     }
     stage('Update') {
-        updateSource()
+        if (!params.BUILD_CLEAN) {
+            updateSource()
+        }
     }
     stage('Configure') {
         sh 'mkdir -p opencmiss'
