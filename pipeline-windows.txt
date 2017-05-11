@@ -6,7 +6,9 @@ node('Windows8') {
         }
     }
     stage('Update') {
-        updateSource()
+        if (!params.BUILD_CLEAN) {
+            updateSource()
+        }
     }
     stage('Configure') {
         bat 'if not exist opencmiss mkdir opencmiss'
