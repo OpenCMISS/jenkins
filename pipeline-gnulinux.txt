@@ -34,6 +34,8 @@ parallel 'Ubuntu 16.04': {
             dir('./opencmiss/build/manage/release/') {
                 if (params.DO_RELEASE) {
                     sh 'cmake -DOPENCMISS_RELEASE=ON .'
+                } else {
+                    sh 'cmake -DOPENCMISS_RELEASE=OFF .'
                 }
                 sh 'make package_sdk'
             }
@@ -77,6 +79,8 @@ parallel 'Ubuntu 16.04': {
             dir('./opencmiss/build/manage/release/') {
                 if (params.DO_RELEASE) {
                     sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DOPENCMISS_RELEASE=ON .'
+                } else {
+                    sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DOPENCMISS_RELEASE=OFF .'
                 }
                 sh 'make package_sdk'
             }
