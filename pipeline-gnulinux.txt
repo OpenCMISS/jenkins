@@ -1,20 +1,14 @@
-def clean() {
-    dir ('./setup-build') {
-        deleteDir()
-    }
-    dir ('./opencmiss/build') {
-        deleteDir()
-    }
-    dir ('./opencmiss/install') {
-        deleteDir()
-    }
-}
-
 parallel 'Ubuntu 16.04': {
     node('Ubuntu_16.04_bioeng49') {
         stage('Ubuntu 16.04 Clean') {
             if (params.BUILD_CLEAN) {
-                clean()
+                cleanSetup()
+            }
+        }
+        stage('Ubuntu 16.04 Update') {
+            updateSource()
+            if (params.BUILD_CLEAN) {
+                updateSource()
             }
         }
         stage('Ubuntu 16.04 Configure') {
