@@ -1,20 +1,12 @@
-def clean() {
-    dir ('./setup-build') {
-        deleteDir()
-    }
-    dir ('./opencmiss/build') {
-        deleteDir()
-    }
-    dir ('./opencmiss/install') {
-        deleteDir()
-    }
-}
 
 node('Mac10.12.3') {
     stage('Clean') {
         if (params.BUILD_CLEAN) {
-            clean()
+            cleanSetup()
         }
+    }
+    stage('Update') {
+        updateSource()
     }
     stage('Configure') {
         sh 'mkdir -p opencmiss'
