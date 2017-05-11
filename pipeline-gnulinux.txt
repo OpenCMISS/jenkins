@@ -7,9 +7,6 @@ parallel 'Ubuntu 16.04': {
         }
         stage('Ubuntu 16.04 Update') {
             updateSource()
-            if (params.BUILD_CLEAN) {
-                updateSource()
-            }
         }
         stage('Ubuntu 16.04 Configure') {
             sh 'mkdir -p opencmiss'
