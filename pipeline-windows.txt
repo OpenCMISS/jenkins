@@ -1,20 +1,12 @@
-def clean() {
-    dir ('./setup-build') {
-        deleteDir()
-    }
-    dir ('./opencmiss/build') {
-        deleteDir()
-    }
-    dir ('./opencmiss/install') {
-        deleteDir()
-    }
-}
 
 node('Windows8') {
     stage('Clean') {
         if (params.BUILD_CLEAN) {
             clean()
         }
+    }
+    stage('Update') {
+        updateSource()
     }
     stage('Configure') {
         bat 'if not exist opencmiss mkdir opencmiss'
