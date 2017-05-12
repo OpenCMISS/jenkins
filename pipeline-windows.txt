@@ -31,6 +31,11 @@ node('Windows8') {
     }
     stage('Package') {
         dir('./opencmiss/build/manage/') {
+            if (params.DO_RELEASE) {
+                bat '"C:\\Program Files\\CMake\\bin\\cmake.exe" -DOPENCMISS_RELEASE=ON .'
+            } else {
+                bat '"C:\\Program Files\\CMake\\bin\\cmake.exe" -DOPENCMISS_RELEASE=OFF .'
+            }
             bat '"C:\\Program Files\\CMake\\bin\\cmake.exe" --build . --target package_sdk --config Release'
         }
     }
