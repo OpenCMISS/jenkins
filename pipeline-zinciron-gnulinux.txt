@@ -5,7 +5,6 @@ parallel 'Ubuntu 16.04': {
                 dir('.opencmiss_libraries') {
                     deleteDir()
                 }
-                sh 'mkdir opencmiss_libraries'
                 dir('./setup_libraries-build') {
                     deleteDir()
                 }
@@ -37,7 +36,6 @@ parallel 'Ubuntu 16.04': {
                 dir('.opencmiss_libraries') {
                     deleteDir()
                 }
-                sh 'mkdir opencmiss_libraries'
                 dir('./setup_libraries-build') {
                     deleteDir()
                 }
