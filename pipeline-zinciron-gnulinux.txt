@@ -1,10 +1,73 @@
-node('Ubuntu_16.04_bioeng49') {
-    ws ('/home/cmiss/Jenkins/workspace/OpenCMISS_Dependencies_GNULinux') {
-        stage('Ubuntu 16.04 Prepare') {
-            dir('./opencmiss_libraries') {
-                deleteDir()
+parallel 'Ubuntu 16.04': {
+    node('Ubuntu_16.04_bioeng49') {
+        ws ('/home/cmiss/Jenkins/workspace/OpenCMISS_Dependencies_GNULinux') {
+            stage('Ubuntu 16.04 Prepare') {
+                dir('.opencmiss_libraries') {
+                    deleteDir()
+                }
+                sh 'mkdir -p opencmiss_libraries/zinc'
+                sh 'mkdir -p opencmiss_libraries/iron'
             }
-            sh 'mkdir -p opencmiss_libraries/{zinc,iron}'
+            stage('Ubuntu 16.04 Clone') {
+                dir('./opencmiss_libraries/zinc') {
+                    git branch: 'develop', url: 'https://github.com/OpenCMISS/zinc.git'
+                }
+                dir('./opencmiss_libraries/iron') {
+                    git branch: 'develop', url: 'https://github.com/OpenCMISS/iron.git'
+                }
+                dir('./test_framework') {
+                    git branch: 'develop', url: 'https://github.com/OpenCMISS/functional_test_framework.git'
+                }
+            }
+            stage('Ubuntu 16.04 Configure') {
+                dir('./opencmiss_libraries/zinc-build') {
+                    sh 'cmake -DZINC_INSTALL_PREFIX=../opencmiss_dependencies ../setup'
+                }
+                dir('./opencmiss_libraries/iron-build') {
+                    sh 'cmake  -DOPENCMISS_SETUP_TYPE=dependencies -DOPENCMISS_DEPENDENCIES_ROOT=../opencmiss_dependencies ../setup'
+                }
+            }
+            stage('Ubuntu 16.04 Make') {
+                dir('./opencmiss_libraries/zinc-build') {
+                    sh 'make -j8'
+                }
+            }
+        }
+    }
+}, 'Ubuntu 14.04': {
+    node('1034_Ubuntu') {
+        ws ('/home/opencmiss/Jenkins/workspace/OpenCMISS_Dependencies_GNULinux') {
+            stage('Ubuntu 16.04 Prepare') {
+                dir('.opencmiss_libraries') {
+                    deleteDir()
+                }
+                sh 'mkdir -p opencmiss_libraries/zinc'
+                sh 'mkdir -p opencmiss_libraries/iron'
+            }
+            stage('Ubuntu 16.04 Clone') {
+                dir('./opencmiss_libraries/zinc') {
+                    git branch: 'develop', url: 'https://github.com/OpenCMISS/zinc.git'
+                }
+                dir('./opencmiss_libraries/iron') {
+                    git branch: 'develop', url: 'https://github.com/OpenCMISS/iron.git'
+                }
+                dir('./test_framework') {
+                    git branch: 'develop', url: 'https://github.com/OpenCMISS/functional_test_framework.git'
+                }
+            }
+            stage('Ubuntu 16.04 Configure') {
+                dir('./opencmiss_libraries/zinc-build') {
+                    sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DZINC_INSTALL_PREFIX=../opencmiss_dependencies ../setup'
+                }
+                dir('./opencmiss_libraries/iron-build') {
+                    sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake  -DOPENCMISS_SETUP_TYPE=dependencies -DOPENCMISS_DEPENDENCIES_ROOT=../opencmiss_dependencies ../setup'
+                }
+            }
+            stage('Ubuntu 16.04 Make') {
+                dir('./opencmiss_libraries/zinc-build') {
+                    sh 'make -j8'
+                }
+            }
         }
     }
 }
