@@ -19,7 +19,7 @@ parallel 'Ubuntu 16.04': {
             }
             stage('Ubuntu 16.04 Configure') {
                 dir('./setup_libraries-build') {
-                    sh 'cmake  -DOPENCMISS_SETUP_TYPE=libraries -DOPENCMISS_LIBRARIES_ROOT=../opencmiss_libraires ../setup'
+                    sh 'cmake  -DOPENCMISS_SETUP_TYPE=libraries -DOPENCMISS_LIBRARIES_ROOT=../opencmiss_libraires -DOPENCMISS_DEPENDENCIES_INSTALL_PREFIX=/home/opencmiss/Jenkins/workspace/OpenCMISS_Dependencies_GNULinux/opencmiss_dependencies/install -DOPENCMISS_CMAKE_MODULE_PATH=/home/opencmiss/Jenkins/workspace/OpenCMISS_Dependencies_GNULinux/opencmiss_dependencies/install/share/cmake/Modules ../setup'
                 }
             }
             stage('Ubuntu 16.04 Make') {
@@ -50,7 +50,7 @@ parallel 'Ubuntu 16.04': {
             }
             stage('Ubuntu 14.04 Configure') {
                 dir('./setup_libraries-build') {
-                    sh 'cmake  -DOPENCMISS_SETUP_TYPE=libraries -DOPENCMISS_LIBRARIES_ROOT=../opencmiss_libraires ../setup'
+                    sh 'cmake  -DOPENCMISS_SETUP_TYPE=libraries -DOPENCMISS_LIBRARIES_ROOT=../opencmiss_libraires -DOPENCMISS_DEPENDENCIES_INSTALL_PREFIX=/home/opencmiss/Jenkins/workspace/OpenCMISS_Dependencies_GNULinux/opencmiss_dependencies/install -DOPENCMISS_CMAKE_MODULE_PATH=/home/opencmiss/Jenkins/workspace/OpenCMISS_Dependencies_GNULinux/opencmiss_dependencies/install/share/cmake/Modules ../setup'
                 }
             }
             stage('Ubuntu 14.04 Make') {
