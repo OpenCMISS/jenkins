@@ -1,19 +1,8 @@
-parallel 'Ubuntu 16.04': {
-    node('Ubuntu_16.04_bioeng49') {
-        ws ('/home/cmiss/Jenkins/workspace/OpenCMISS_Dependencies_GNULinux') {
-            stage(Ubuntu 16.04 Prepare') {
-                deleteDir('opencmiss_libraries')
-                sh 'mkdir -p opencmiss_libraries/zinc'
-            }
-        }
-    }
-}, 'Ubuntu 14.04': {
-    node('1034_Ubuntu') {
-        ws ('/home/opencmiss/Jenkins/workspace/OpenCMISS_Dependencies_GNULinux') {
-            stage(Ubuntu 16.04 Prepare') {
-                deleteDir('opencmiss_libraries')
-                sh 'mkdir -p opencmiss_libraries/iron'
-            }
+node('Ubuntu_16.04_bioeng49') {
+    ws ('/home/cmiss/Jenkins/workspace/OpenCMISS_Dependencies_GNULinux') {
+        stage(Ubuntu 16.04 Prepare') {
+            deleteDir('opencmiss_libraries')
+            sh 'mkdir -p opencmiss_libraries/zinc'
         }
     }
 }
