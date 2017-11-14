@@ -1,7 +1,9 @@
 node('Ubuntu_16.04_bioeng49') {
     ws ('/home/cmiss/Jenkins/workspace/OpenCMISS_Dependencies_GNULinux') {
         stage('Ubuntu 16.04 Prepare') {
-            deleteDir('opencmiss_libraries')
+            dir('./opencmiss_libraries') {
+                deleteDir()
+            }
             sh 'mkdir -p opencmiss_libraries/{zinc,iron}'
         }
     }
