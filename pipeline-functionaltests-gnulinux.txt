@@ -1,0 +1,63 @@
+parallel 'Ubuntu 16.04': {
+    node('Ubuntu_16.04_bioeng49') {
+        ws ('/home/cmiss/Jenkins/workspace/OpenCMISS_Dependencies_GNULinux') {
+            stage('Ubuntu 16.04 Prepare') {
+                dir('.opencmiss_libraries') {
+                    deleteDir()
+                }
+                dir('./setup_libraries-build') {
+                    deleteDir()
+                }
+            }
+            stage('Ubuntu 16.04 Clone') {
+                dir('./setup') {
+                    git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
+                }
+                dir('./test_framework') {
+                    git branch: 'develop', url: 'https://github.com/OpenCMISS/functional_test_framework.git'
+                }
+            }
+            stage('Ubuntu 16.04 Configure') {
+                dir('./setup_libraries-build') {
+                    sh 'cmake  -DOPENCMISS_SETUP_TYPE=libraries -DOPENCMISS_LIBRARIES_ROOT=../opencmiss_libraries -DOPENCMISS_DEPENDENCIES_INSTALL_PREFIX=/home/cmiss/Jenkins/workspace/OpenCMISS_Dependencies_GNULinux/opencmiss_dependencies/install -DOPENCMISS_CMAKE_MODULE_PATH=/home/cmiss/Jenkins/workspace/OpenCMISS_Dependencies_GNULinux/opencmiss_dependencies/install/share/cmake/Modules ../setup'
+                }
+            }
+            stage('Ubuntu 16.04 Make') {
+                dir('./setup_libraries-build') {
+                    sh 'make'
+                }
+            }
+        }
+    }
+}, 'Ubuntu 14.04': {
+    node('1034_Ubuntu') {
+        ws ('/home/opencmiss/Jenkins/workspace/OpenCMISS_Dependencies_GNULinux') {
+            stage('Ubuntu 14.04 Prepare') {
+                dir('.opencmiss_libraries') {
+                    deleteDir()
+                }
+                dir('./setup_libraries-build') {
+                    deleteDir()
+                }
+            }
+            stage('Ubuntu 14.04 Clone') {
+                dir('./setup') {
+                    git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
+                }
+                dir('./test_framework') {
+                    git branch: 'develop', url: 'https://github.com/OpenCMISS/functional_test_framework.git'
+                }
+            }
+            stage('Ubuntu 14.04 Configure') {
+                dir('./setup_libraries-build') {
+                    sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake  -DOPENCMISS_SETUP_TYPE=libraries -DOPENCMISS_LIBRARIES_ROOT=../opencmiss_libraries -DOPENCMISS_DEPENDENCIES_INSTALL_PREFIX=/home/opencmiss/Jenkins/workspace/OpenCMISS_Dependencies_GNULinux/opencmiss_dependencies/install -DOPENCMISS_CMAKE_MODULE_PATH=/home/opencmiss/Jenkins/workspace/OpenCMISS_Dependencies_GNULinux/opencmiss_dependencies/install/share/cmake/Modules ../setup'
+                }
+            }
+            stage('Ubuntu 14.04 Make') {
+                dir('./setup_libraries-build') {
+                    sh 'make'
+                }
+            }
+        }
+    }
+}
