@@ -5,6 +5,9 @@ parallel 'Ubuntu 16.04': {
                 dir('./opencmiss_libraries') {
                     deleteDir()
                 }
+                dir('./opencmiss_libraries') {
+                    writeFile file:'ignore', text:''
+                }
                 dir('./setup_libraries-build') {
                     deleteDir()
                 }
@@ -45,6 +48,9 @@ parallel 'Ubuntu 16.04': {
             stage('Ubuntu 14.04 Prepare') {
                 dir('./opencmiss_libraries') {
                     deleteDir()
+                }
+                dir('./opencmiss_libraries') {
+                    writeFile file:'ignore', text:''
                 }
                 dir('./setup_libraries-build') {
                     deleteDir()
