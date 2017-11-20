@@ -43,7 +43,7 @@ parallel 'Ubuntu 16.04': {
     node('1034_Ubuntu') {
         ws ('/home/opencmiss/Jenkins/workspace/OpenCMISS_Dependencies_GNULinux') {
             stage('Ubuntu 14.04 Prepare') {
-                dir('.opencmiss_libraries') {
+                dir('./opencmiss_libraries') {
                     deleteDir()
                 }
                 dir('./setup_libraries-build') {
