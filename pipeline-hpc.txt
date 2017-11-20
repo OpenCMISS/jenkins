@@ -1,5 +1,5 @@
 
-node('hpc') {
+node('hpc3') {
     stage('Clean') {
         if (params.BUILD_CLEAN) {
             cleanSetup()
