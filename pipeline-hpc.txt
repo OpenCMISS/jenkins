@@ -1,17 +1,17 @@
 
 parallel 'hpc3-gcc': {
     node('hpc3') {
-        stage('Clean') {
+        stage('HPC3 Clean') {
             if (params.BUILD_CLEAN) {
                 cleanSetup()
             }
         }
-        stage('Update') {
+        stage('HPC3 Update') {
             if (!params.BUILD_CLEAN) {
                 updateSource()
             }
         }
-        stage('Configure') {
+        stage('HPC3 Configure') {
             sh 'mkdir -p opencmiss'
             dir('./setup') {
                 git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
@@ -20,12 +20,12 @@ parallel 'hpc3-gcc': {
                 sh '/hpc_atog/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss ../setup'
             }
         }
-        stage('Make') {
+        stage('HPC3 Make') {
             dir('./setup-build') {
                 sh 'make'
             }
         }
-        stage('Test') {
+        stage('HPC3 Test') {
             dir('./opencmiss/build/manage/release/config/Release') {
                 sh 'make keytests'
             }
@@ -33,17 +33,17 @@ parallel 'hpc3-gcc': {
     }
 }, 'hpc6-intel': {
     node('hpc6') {
-        stage('Clean') {
+        stage('HPC6 Clean') {
             if (params.BUILD_CLEAN) {
                 cleanSetup()
             }
         }
-        stage('Update') {
+        stage('HPC6 Update') {
             if (!params.BUILD_CLEAN) {
                 updateSource()
             }
         }
-        stage('Configure') {
+        stage('HPC6 Configure') {
             sh 'mkdir -p opencmiss'
             dir('./setup') {
                 git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
@@ -52,12 +52,12 @@ parallel 'hpc3-gcc': {
                 sh '/hpc_atog/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss ../setup'
             }
         }
-        stage('Make') {
+        stage('HPC6 Make') {
             dir('./setup-build') {
                 sh 'make'
             }
         }
-        stage('Test') {
+        stage('HPC6 Test') {
             dir('./setup-build') {
                 sh 'make keytests'
             }
