@@ -1,35 +1,66 @@
 
-node('hpc3') {
-    stage('Clean') {
-        if (params.BUILD_CLEAN) {
-            cleanSetup()
+parallel 'hpc3-gcc': {
+    node('hpc3') {
+        stage('Clean') {
+            if (params.BUILD_CLEAN) {
+                cleanSetup()
+            }
+        }
+        stage('Update') {
+            if (!params.BUILD_CLEAN) {
+                updateSource()
+            }
+        }
+        stage('Configure') {
+            sh 'mkdir -p opencmiss'
+            dir('./setup') {
+                git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
+            }
+            dir('./setup-build') {
+                sh '/hpc_atog/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss ../setup'
+            }
+        }
+        stage('Make') {
+            dir('./setup-build') {
+                sh 'make'
+            }
+        }
+        stage('Test') {
+            dir('./opencmiss/build/manage/release/config/Release') {
+                sh 'make keytests'
+            }
         }
     }
-    stage('Update') {
-        if (!params.BUILD_CLEAN) {
-            updateSource()
+}, 'hpc6-intel': {
+    node('hpc6') {
+        stage('Clean') {
+            if (params.BUILD_CLEAN) {
+                cleanSetup()
+            }
         }
-    }
-    stage('Configure') {
-        sh 'mkdir -p opencmiss'
-        dir('./setup') {
-            git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
+        stage('Update') {
+            if (!params.BUILD_CLEAN) {
+                updateSource()
+            }
         }
-        dir('./setup-build') {
-            sh '/hpc_atog/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss ../setup'
+        stage('Configure') {
+            sh 'mkdir -p opencmiss'
+            dir('./setup') {
+                git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
+            }
+            dir('./setup-build') {
+                sh '/hpc_atog/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss ../setup'
+            }
         }
-    }
-    stage('Make') {
-        dir('./setup-build') {
-        	sh 'make'
+        stage('Make') {
+            dir('./setup-build') {
+                sh 'make'
+            }
         }
-    }
-    stage('Test') {
-        dir('./opencmiss/build/manage/release/config/Release') {
-            sh 'make keytests'
+        stage('Test') {
+            dir('./setup-build') {
+                sh 'make keytests'
+            }
         }
-    }
-    stage('Finish') {
-            echo "Finish"
     }
 }
