@@ -40,7 +40,7 @@ parallel 'hpc3-gcc': {
         }
         stage('HPC6 Update') {
             if (!params.BUILD_CLEAN) {
-                updateSource()
+                #updateSource()
             }
         }
         stage('HPC6 Configure') {
