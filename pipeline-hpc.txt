@@ -44,6 +44,7 @@ parallel 'hpc3-gcc': {
             }
         }
         stage('HPC6 Configure') {
+            sh 'source /opt/intel/compilers_and_libraries_2017/linux/bin/compilervars.csh intel64'
             sh 'mkdir -p opencmiss'
             dir('./setup') {
                 git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
@@ -54,11 +55,13 @@ parallel 'hpc3-gcc': {
         }
         stage('HPC6 Make') {
             dir('./setup-build') {
+                sh 'source /opt/intel/compilers_and_libraries_2017/linux/bin/compilervars.csh intel64'
                 sh 'make'
             }
         }
         stage('HPC6 Test') {
             dir('./setup-build') {
+                sh 'source /opt/intel/compilers_and_libraries_2017/linux/bin/compilervars.csh intel64'
                 sh 'make keytests'
             }
         }
