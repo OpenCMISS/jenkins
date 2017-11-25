@@ -54,10 +54,7 @@ parallel 'hpc3-gcc': {
         }
         stage('HPC6 Make') {
             dir('./setup-build') {
-                sh '''
-                  . /opt/intel/compilers_and_libraries_2017/linux/bin/compilervars.sh intel64
-                  make
-                '''
+                sh '. /opt/intel/compilers_and_libraries_2017/linux/bin/compilervars.sh intel64 && make'
             }
         }
         stage('HPC6 Test') {
