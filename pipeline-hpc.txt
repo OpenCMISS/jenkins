@@ -49,7 +49,10 @@ parallel 'hpc3-gcc': {
                 git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
             }
             dir('./setup-build') {
-                sh '/hpc_atog/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss ../setup'
+                sh '''
+                  . /opt/intel/compilers_and_libraries_2017/linux/bin/compilervars.sh intel64
+                  /hpc_atog/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss ../setup
+                '''
             }
         }
         stage('HPC6 Make') {
