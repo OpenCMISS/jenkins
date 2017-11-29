@@ -72,4 +72,49 @@ parallel 'hpc3-gcc': {
             }
         }
     }
+}, 'hpc5-mpich': {
+    node('hpc5') {
+        stage('HPC5 Clean') {
+            if (params.BUILD_CLEAN) {
+                cleanSetup()
+            }
+        }
+        stage('HPC5 Update') {
+            if (!params.BUILD_CLEAN) {
+                updateSource()
+            }
+        }
+        stage('HPC5 Configure') {
+            sh 'mkdir -p opencmiss'
+            dir('./setup') {
+                git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
+            }
+            dir('./setup-build') {
+                sh '''
+                  source /etc/profile.d/modules.csh
+                  module load mpi/mpich-3.2-x86_64
+                  /hpc/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss ../setup
+                '''
+            }
+        }
+        stage('HPC5 Make') {
+            dir('./setup-build') {
+                sh '''
+                  source /etc/profile.d/modules.csh
+                  module load mpi/mpich-3.2-x86_64
+                  make
+                '''
+            }
+        }
+        stage('HPC5 Test') {
+            dir('./setup-build') {
+                sh '''
+                  source /etc/profile.d/modules.csh
+                  module load mpi/mpich-3.2-x86_64
+                  make keytests
+                '''
+            }
+        }
+    }
 }
+
