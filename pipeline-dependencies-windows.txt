@@ -1,1 +1,27 @@
 
+node('Windows8') {
+    stage('Clean') {
+        if (params.BUILD_CLEAN) {
+            cleanSetup()
+        }
+    }
+    stage('Update') {
+        if (!params.BUILD_CLEAN) {
+            updateSource()
+        }
+    }
+    stage('Configure') {
+        sh 'mkdir -p opencmiss_dependencies'
+        dir('./setup') {
+            git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
+        }
+        dir('./setup-build') {
+            bat '"C:\\Program Files\\CMake\\bin\\cmake.exe" -G"Visual Studio 14 2015 Win64" -DOPENCMISS_SETUP_TYPE=dependencies -DOPENCMISS_DEPENDENCIES_ROOT=../opencmiss_dependencies ../setup'
+        }
+    }
+    stage('Make') {
+        dir('./setup-build') {
+            bat '"C:\\Program Files\\CMake\\bin\\cmake.exe" --build . --config Release'
+        }
+    }
+}
