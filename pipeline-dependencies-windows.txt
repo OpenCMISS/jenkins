@@ -11,7 +11,7 @@ node('Windows8') {
         }
     }
     stage('Configure') {
-        sh 'mkdir -p opencmiss_dependencies'
+        bat 'if not exist opencmiss_dependencies mkdir opencmiss_dependencies'
         dir('./setup') {
             git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
         }
