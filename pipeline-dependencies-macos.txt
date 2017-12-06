@@ -1,1 +1,27 @@
 
+node('Mac10.12.3') {
+    stage('Clean') {
+        if (params.BUILD_CLEAN) {
+            cleanSetup()
+        }
+    }
+    stage('Update') {
+        if (!params.BUILD_CLEAN) {
+            updateSource()
+        }
+    }
+    stage('Configure') {
+        sh 'mkdir -p opencmiss_dependencies'
+        dir('./setup') {
+            git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
+        }
+        dir('./setup-build') {
+            sh 'cmake -DOPENCMISS_SETUP_TYPE=dependencies -DOPENCMISS_DEPENDENCIES_ROOT=../opencmiss_dependencies ../setup'
+        }
+    }
+    stage('Make') {
+        dir('./setup-build') {
+            sh 'make'
+        }
+    }
+}
