@@ -1,1 +1,44 @@
 
+node('Windows8') {
+    ws ('D:\\Jenkins\\workspace\\OpenCMISS_Dependencies_Windows') {
+        stage('Prepare') {
+            dir('./opencmiss_libraries') {
+                deleteDir()
+            }
+            dir('./opencmiss_libraries') {
+                writeFile file:'ignore', text:''
+            }
+            dir('./setup_libraries-build') {
+                deleteDir()
+            }
+        }
+        stage('Clone') {
+            dir('./setup') {
+                git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
+            }
+            dir('./test_framework') {
+                git branch: 'develop', url: 'https://github.com/OpenCMISS/functional_test_framework.git'
+            }
+        }
+        stage('Configure Libraries') {
+            dir('./setup_libraries-build') {
+                bat '"C:\\Program Files\\CMake\\bin\\cmake.exe" -G"Visual Studio 14 2015 Win64" -DOPENCMISS_SETUP_TYPE=libraries -DOPENCMISS_LIBRARIES_ROOT=../opencmiss_libraries -DOPENCMISS_DEPENDENCIES_INSTALL_PREFIX=D:\\Jenkins\\workspace\\OpenCMISS_Dependencies_Windows\\opencmiss_dependencies\\install -DOPENCMISS_CMAKE_MODULE_PATH=D:\\Jenkins\\workspace\\OpenCMISS_Dependencies_Windows\\opencmiss_dependencies\\install\\share\\cmake\\Modules ../setup'
+            }
+        }
+        stage('Make Libraries') {
+            dir('./setup_libraries-build') {
+                bat '"C:\\Program Files\\CMake\\bin\\cmake.exe" --build . --config Release'
+            }
+        }
+        stage('Configure Tests') {
+            dir('./test_framework-build') {
+                bat '"C:\\Program Files\\CMake\\bin\\cmake.exe" -G"Visual Studio 14 2015 Win64" -DOpenCMISSLibs_DIR=D:\\Jenkins\\workspace\\OpenCMISS_Dependencies_Windows\\opencmiss_libraries\\install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} ../test_framework'
+            }
+        }
+        stage('Make Tests') {
+            dir('./test_framework-build') {
+                bat '"C:\\Program Files\\CMake\\bin\\cmake.exe" --build . --config Release'
+            }
+        }
+    }
+}
