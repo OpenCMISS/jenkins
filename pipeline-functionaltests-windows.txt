@@ -23,6 +23,7 @@ node('Windows8') {
         stage('Configure Libraries') {
             dir('./setup_libraries-build') {
                 bat '''
+                  call "c:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x64
                   call "C:\\Program Files (x86)\\Intel\\Composer XE 2015\\bin\\compilervars.bat" intel64 vs2015
                   "C:\\Program Files\\CMake\\bin\\cmake.exe" -G"Visual Studio 14 2015 Win64" -DOPENCMISS_SETUP_TYPE=libraries -DOPENCMISS_LIBRARIES_ROOT=../opencmiss_libraries -DOPENCMISS_DEPENDENCIES_INSTALL_PREFIX=D:\\Jenkins\\workspace\\OpenCMISS_Dependencies_Windows\\opencmiss_dependencies\\install -DOPENCMISS_CMAKE_MODULE_PATH=D:\\Jenkins\\workspace\\OpenCMISS_Dependencies_Windows\\opencmiss_dependencies\\install\\share\\cmake\\Modules ../setup
                 '''
@@ -31,6 +32,7 @@ node('Windows8') {
         stage('Make Libraries') {
             dir('./setup_libraries-build') {
                 bat '''
+                  call "c:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x64
                   call "C:\\Program Files (x86)\\Intel\\Composer XE 2015\\bin\\compilervars.bat" intel64 vs2015
                   "C:\\Program Files\\CMake\\bin\\cmake.exe" --build . --config Release'
                 '''
@@ -39,6 +41,7 @@ node('Windows8') {
         stage('Configure Tests') {
             dir('./test_framework-build') {
                 bat '''
+                  call "c:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x64
                   call "C:\\Program Files (x86)\\Intel\\Composer XE 2015\\bin\\compilervars.bat" intel64 vs2015
                   "C:\\Program Files\\CMake\\bin\\cmake.exe" -G"Visual Studio 14 2015 Win64" -DOpenCMISSLibs_DIR=D:\\Jenkins\\workspace\\OpenCMISS_Dependencies_Windows\\opencmiss_libraries\\install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} ../test_framework
                 '''
@@ -47,6 +50,7 @@ node('Windows8') {
         stage('Make Tests') {
             dir('./test_framework-build') {
                 bat '''
+                  call "c:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x64
                   call "C:\\Program Files (x86)\\Intel\\Composer XE 2015\\bin\\compilervars.bat" intel64 vs2015
                   "C:\\Program Files\\CMake\\bin\\cmake.exe" --build . --config Release
                 '''
