@@ -27,8 +27,7 @@ node('Windows8') {
         }
         stage('Make Libraries') {
             dir('./setup_libraries-build') {
-                bat '"C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\vcvarsall.bat" x64 && "C:\\Program Files (x86)\\Intel\\Composer XE 2015\\bin\\compilervars.bat" intel64 vs2015 && "C:\\Program Files\\CMake\\bin\\cmake.exe" --build . --config Release
-                '''
+                bat '"C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\vcvarsall.bat" x64 && "C:\\Program Files (x86)\\Intel\\Composer XE 2015\\bin\\compilervars.bat" intel64 vs2015 && "C:\\Program Files\\CMake\\bin\\cmake.exe" --build . --config Release'
             }
         }
         stage('Configure Tests') {
