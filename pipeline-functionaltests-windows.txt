@@ -22,6 +22,7 @@ node('Windows8') {
         }
         stage('Configure Libraries') {
             dir('./setup_libraries-build') {
+                bat '"C:\\Program Files\\CMake\\bin\\cmake.exe" --version'
                 bat '"C:\\Program Files\\CMake\\bin\\cmake.exe" -G"Visual Studio 14 2015 Win64" -DOPENCMISS_SETUP_TYPE=libraries -DOPENCMISS_LIBRARIES_ROOT=../opencmiss_libraries -DOPENCMISS_DEPENDENCIES_INSTALL_PREFIX=D:\\Jenkins\\workspace\\OpenCMISS_Dependencies_Windows\\opencmiss_dependencies\\install -DOPENCMISS_CMAKE_MODULE_PATH=D:\\Jenkins\\workspace\\OpenCMISS_Dependencies_Windows\\opencmiss_dependencies\\install\\share\\cmake\\Modules ../setup'
             }
         }
