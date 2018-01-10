@@ -2,7 +2,8 @@
 node('Windows8') {
     stage('Clean') {
         if (params.BUILD_CLEAN) {
-            cleanSetup()
+            updateSource()
+            cleanSetup('opencmiss_dependencies')
         }
     }
     stage('Update') {
