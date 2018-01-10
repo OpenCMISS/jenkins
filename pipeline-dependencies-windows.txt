@@ -1,14 +1,15 @@
 
 node('Windows8') {
+    String rootDir = 'opencmiss_dependencies'
     stage('Clean') {
         if (params.BUILD_CLEAN) {
-            updateSource()
-            cleanSetup('opencmiss_dependencies')
+            updateSource(rootDir)
+            cleanSetup(rootDir)
         }
     }
     stage('Update') {
         if (!params.BUILD_CLEAN) {
-            updateSource()
+            updateSource(rootDir)
         }
     }
     stage('Configure') {
