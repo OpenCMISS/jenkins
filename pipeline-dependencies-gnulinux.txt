@@ -1,16 +1,16 @@
-parallel 'Ubuntu 16.04': {
-    node('Ubuntu_16.04_bioeng49') {
-        stage('Ubuntu 16.04 Clean') {
+'HPC6': {
+    node('hpc6') {
+        stage('HPC6 Clean') {
             if (params.BUILD_CLEAN) {
                 cleanSetup()
             }
         }
-        stage('Ubuntu 16.04 Update') {
+        stage('HPC6 Update') {
             if (!params.BUILD_CLEAN) {
                 updateSource()
             }
         }
-        stage('Ubuntu 16.04 Configure') {
+        stage('HPC6 Configure') {
             sh 'mkdir -p opencmiss_dependencies'
             dir('./setup') {
                 git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
@@ -19,42 +19,12 @@ parallel 'Ubuntu 16.04': {
     			sh 'cmake  -DOPENCMISS_SETUP_TYPE=dependencies -DOPENCMISS_DEPENDENCIES_ROOT=../opencmiss_dependencies ../setup'
     		}
         }
-        stage('Ubuntu 16.04 Make') {
+        stage('HPC6 Make') {
             dir('./setup-build') {
             	sh 'make'
             }
         }
         stage('Ubuntu 16.04 Finish') {
-                echo "Finish"
-        }
-    }
-}, 'Ubuntu 14.04': {
-    node('1034_Ubuntu') {
-        stage('Ubuntu 14.04 Clean') {
-            if (params.BUILD_CLEAN) {
-                cleanSetup()
-            }
-        }
-        stage('Ubuntu 14.04 Update') {
-            if (!params.BUILD_CLEAN) {
-                updateSource()
-            }
-        }
-        stage('Ubuntu 14.04 Configure') {
-            sh 'mkdir -p opencmiss_dependencies'
-            dir('./setup') {
-                git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
-            }
-    		dir('./setup-build') {
-    			sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DOPENCMISS_SETUP_TYPE=dependencies -DOPENCMISS_DEPENDENCIES_ROOT=../opencmiss_dependencies ../setup'
-    		}
-        }
-        stage('Ubuntu 14.04 Make') {
-            dir('./setup-build') {
-            	sh 'make'
-            }
-        }
-        stage('Ubuntu 14.04 Finish') {
                 echo "Finish"
         }
     }
