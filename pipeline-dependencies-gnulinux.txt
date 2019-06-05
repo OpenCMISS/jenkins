@@ -1,4 +1,4 @@
-'HPC6': {
+parallel 'HPC6': {
     node('hpc6') {
         stage('HPC6 Clean') {
             if (params.BUILD_CLEAN) {
