@@ -27,7 +27,9 @@ parallel 'hpc6-gcc': {
                 sh '''
                 source /etc/profile.d/modules.sh
                 module load mpi/mpich-3.2-x86_64
-                /hpc_atog/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss ../setup
+                #/hpc_atog/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss ../setup
+                set
+                echo "Done"
                 '''
             }
         }
