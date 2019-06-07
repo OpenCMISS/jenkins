@@ -1,5 +1,5 @@
 parallel 'hpc6-gcc': {
-    node('Ubuntu_16.04_bioeng49') {
+    node('hpc6') {
         stage('HPC6 Clean') {
             if (params.BUILD_CLEAN) {
                 cleanSetup()
@@ -18,25 +18,25 @@ parallel 'hpc6-gcc': {
             }
             dir('./setup-build') {
                 sh '''
-                #source /etc/profile.d/modules.sh
-                #module load mpi/mpich-3.2-x86_64
-                #export https_proxy=proxy.bioeng.auckland.ac.nz:8080
+                source /etc/profile.d/modules.sh
+                module load mpi/mpich-3.2-x86_64
+                export https_proxy=proxy.bioeng.auckland.ac.nz:8080
                 export FC=mpif90
                 export CC=mpicc
                 export CXX=mpicxx
                 export CMAKE_Fortran_COMPILER=mpif90
                 export CMAKE_C_COMPILER=mpicc
                 export CMAKE_CXX_COMPILER=mpicxx
-                cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup
+                /hpc_atog/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup
                 '''
             }
         }
         stage('HPC6 Make') {
             dir('./setup-build') {
                 sh '''
-                #source /etc/profile.d/modules.sh
-                #module load mpi/mpich-3.2-x86_64
-                #export https_proxy=proxy.bioeng.auckland.ac.nz:8080
+                source /etc/profile.d/modules.sh
+                module load mpi/mpich-3.2-x86_64
+                export https_proxy=proxy.bioeng.auckland.ac.nz:8080
                 export FC=mpif90
                 export CC=mpicc
                 export CXX=mpicxx
