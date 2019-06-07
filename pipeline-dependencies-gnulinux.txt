@@ -1,5 +1,5 @@
 parallel 'hpc6-gcc': {
-    node('hpc6') {
+    node('Ubuntu_16.04_bioeng49') {
         stage('HPC6 Clean') {
             if (params.BUILD_CLEAN) {
                 cleanSetup()
