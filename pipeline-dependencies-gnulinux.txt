@@ -3,6 +3,7 @@ parallel 'hpc6-gcc': {
         stage('HPC6 Clean') {
             if (params.BUILD_CLEAN) {
                 cleanSetup()
+                sh 'rm -rf opencmiss'
             }
         }
         stage('HPC6 Update') {
@@ -11,12 +12,7 @@ parallel 'hpc6-gcc': {
             }
         }
         stage('HPC6 Configure') {
-            sh '''
-            if(params.BUILD_CLEAN) {
-                rm -rf opencmiss
-            }
-            mkdir -p opencmiss
-            '''
+            sh 'mkdir -p opencmiss'
             dir('./setup') {
                 git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
             }
