@@ -27,7 +27,8 @@ parallel 'hpc6-gcc': {
                 #export CMAKE_Fortran_COMPILER=mpif90
                 #export CMAKE_C_COMPILER=mpicc
                 #export CMAKE_CXX_COMPILER=mpicxx
-                /hpc_atog/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup
+                #/hpc_atog/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup
+                cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup
                 '''
             }
         }
