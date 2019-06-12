@@ -18,15 +18,15 @@ parallel 'hpc6-gcc': {
             }
             dir('./setup-build') {
                 sh '''
-                source /etc/profile.d/modules.sh
-                module load mpi/mpich-3.2-x86_64
-                export https_proxy=proxy.bioeng.auckland.ac.nz:8080
-                export FC=mpif90
-                export CC=mpicc
-                export CXX=mpicxx
-                export CMAKE_Fortran_COMPILER=mpif90
-                export CMAKE_C_COMPILER=mpicc
-                export CMAKE_CXX_COMPILER=mpicxx
+                #source /etc/profile.d/modules.sh
+                #module load mpi/mpich-3.2-x86_64
+                #export https_proxy=proxy.bioeng.auckland.ac.nz:8080
+                #export FC=mpif90
+                #export CC=mpicc
+                #export CXX=mpicxx
+                #export CMAKE_Fortran_COMPILER=mpif90
+                #export CMAKE_C_COMPILER=mpicc
+                #export CMAKE_CXX_COMPILER=mpicxx
                 /hpc_atog/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup
                 '''
             }
@@ -34,16 +34,15 @@ parallel 'hpc6-gcc': {
         stage('HPC6 Make') {
             dir('./setup-build') {
                 sh '''
-                source /etc/profile.d/modules.sh
-                module load mpi/mpich-3.2-x86_64
-                export https_proxy=proxy.bioeng.auckland.ac.nz:8080
-                export FC=mpif90
-                export CC=mpicc
-                export CXX=mpicxx
-                export CMAKE_Fortran_COMPILER=mpif90
-                export CMAKE_C_COMPILER=mpicc
-                export CMAKE_CXX_COMPILER=mpicxx
-                set
+                #source /etc/profile.d/modules.sh
+                #module load mpi/mpich-3.2-x86_64
+                #export https_proxy=proxy.bioeng.auckland.ac.nz:8080
+                #export FC=mpif90
+                #export CC=mpicc
+                #export CXX=mpicxx
+                #export CMAKE_Fortran_COMPILER=mpif90
+                #export CMAKE_C_COMPILER=mpicc
+                #export CMAKE_CXX_COMPILER=mpicxx
                 make
                 '''
             }
