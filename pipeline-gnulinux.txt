@@ -66,7 +66,7 @@ parallel 'Ubuntu 16.04': {
                 git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
             }
     		dir('./setup-build') {
-    			sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup'
+    			sh 'cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup'
     		}
         }
         stage('Ubuntu 14.04 Make') {
@@ -82,9 +82,9 @@ parallel 'Ubuntu 16.04': {
         stage('Ubuntu 14.04 Package') {
             dir('./opencmiss/build/manage/release/') {
                 if (params.DO_RELEASE) {
-                    sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DOPENCMISS_RELEASE=ON .'
+                    sh 'cmake -DOPENCMISS_RELEASE=ON .'
                 } else {
-                    sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DOPENCMISS_RELEASE=OFF .'
+                    sh 'cmake -DOPENCMISS_RELEASE=OFF .'
                 }
                 sh 'make package_sdk'
             }
