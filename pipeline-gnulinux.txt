@@ -18,7 +18,7 @@ parallel 'Ubuntu 16.04': {
             }
     		dir('./setup-build') {
                 sh '''
-                export MPICH_FC=gfortran
+                export MPICH_FC=gfortran-8
                 export MPICH_CC=gcc-8
                 export MPICH_CXX=g++-8
     			cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup
@@ -28,7 +28,7 @@ parallel 'Ubuntu 16.04': {
         stage('Ubuntu 16.04 Make') {
             dir('./setup-build') {
                 sh '''
-                export MPICH_FC=gfortran
+                export MPICH_FC=gfortran-8
                 export MPICH_CC=gcc-8
                 export MPICH_CXX=g++-8
             	make
