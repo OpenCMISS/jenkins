@@ -24,6 +24,9 @@ parallel 'Ubuntu 16.04': {
                 export FC=gfortran-8
                 export CC=gcc-8
                 export CXX=g++-8
+                export CMAKE_Fortran_COMPILER=mpif90
+                export CMAKE_C_COMPILER=mpicc
+                export CMAKE_CXX_COMPILER=mpicxx
     			cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup
                 '''
     		}
@@ -37,6 +40,9 @@ parallel 'Ubuntu 16.04': {
                 export FC=gfortran-8
                 export CC=gcc-8
                 export CXX=g++-8
+                export CMAKE_Fortran_COMPILER=mpif90
+                export CMAKE_C_COMPILER=mpicc
+                export CMAKE_CXX_COMPILER=mpicxx
             	make
                 '''
             }
