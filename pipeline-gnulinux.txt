@@ -17,34 +17,12 @@ parallel 'Ubuntu 16.04': {
                 git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
             }
     		dir('./setup-build') {
-                sh '''
-                export MPICH_FC=gfortran-8
-                export MPICH_CC=gcc-8
-                export MPICH_CXX=g++-8
-                export FC=gfortran-8
-                export CC=gcc-8
-                export CXX=g++-8
-                export CMAKE_Fortran_COMPILER=mpif90
-                export CMAKE_C_COMPILER=mpicc
-                export CMAKE_CXX_COMPILER=mpicxx
-    			cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup
-                '''
+                sh 'cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup'
     		}
         }
         stage('Ubuntu 16.04 Make') {
             dir('./setup-build') {
-                sh '''
-                export MPICH_FC=gfortran-8
-                export MPICH_CC=gcc-8
-                export MPICH_CXX=g++-8
-                export FC=gfortran-8
-                export CC=gcc-8
-                export CXX=g++-8
-                export CMAKE_Fortran_COMPILER=mpif90
-                export CMAKE_C_COMPILER=mpicc
-                export CMAKE_CXX_COMPILER=mpicxx
-            	make
-                '''
+                sh 'make'
             }
         }
         stage('Ubuntu 16.04 Test') {
@@ -76,6 +54,7 @@ parallel 'Ubuntu 16.04': {
         stage('Ubuntu 14.04 Clean') {
             if (params.BUILD_CLEAN) {
                 cleanSetup()
+                sh 'rm -rf opencmiss'
             }
         }
         stage('Ubuntu 14.04 Update') {
