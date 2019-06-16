@@ -27,7 +27,10 @@ parallel 'Ubuntu 16.04': {
         }
         stage('Ubuntu 16.04 Test') {
             dir('./opencmiss/build/manage/release/config/Release') {
-                sh 'PYTHONPATH=/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/virtual_environments/oclibs_venv_py36_release:$PYTHONPATH make keytests'
+                sh '''
+       export PYTHONPATH=/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/share/python:$PYTHONPATH
+       make keytests
+       '''
             }
         }
         stage('Ubuntu 16.04 Package') {
