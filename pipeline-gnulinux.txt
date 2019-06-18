@@ -28,7 +28,6 @@ parallel 'Ubuntu 16.04': {
         stage('Ubuntu 16.04 Test') {
             dir('./opencmiss/build/manage/release/config/Release') {
                 sh '''
-       export PYTHONPATH=/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/lib/python3.6/opencmiss.iron:$PYTHONPATH
        make keytests
        '''
             }
@@ -82,7 +81,6 @@ parallel 'Ubuntu 16.04': {
         stage('Ubuntu 14.04 Test') {
             dir('./opencmiss/build/manage/release/config/Release') {
                 sh '''
-                export PYTHONPATH=/home/opencmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/lib/python2.7/opencmiss.iron:$PYTHONPATH
                 make keytests
                 '''
             }
