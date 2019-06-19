@@ -17,7 +17,7 @@ parallel 'Ubuntu 16.04': {
                 git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
             }
     		dir('./setup-build') {
-                sh 'cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup'
+                sh 'cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_VERSION=hpc6 -DOPENCMISS_LIBRARIES=iron ../setup'
     		}
         }
         stage('Ubuntu 16.04 Make') {
@@ -70,7 +70,7 @@ parallel 'Ubuntu 16.04': {
                 git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
             }
     		dir('./setup-build') {
-    			sh 'cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup'
+    			sh 'cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_VERSION=hpc6  -DOPENCMISS_LIBRARIES=iron ../setup'
     		}
         }
         stage('Ubuntu 14.04 Make') {
