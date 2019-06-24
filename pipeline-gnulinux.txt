@@ -27,9 +27,7 @@ parallel 'Ubuntu 16.04': {
         }
         stage('Ubuntu 16.04 Test') {
             dir('./opencmiss/build/manage/release/config/Release') {
-                sh '''
-       make keytests
-       '''
+                sh 'make keytests'
             }
         }
         stage('Ubuntu 16.04 Package') {
@@ -80,9 +78,7 @@ parallel 'Ubuntu 16.04': {
         }
         stage('Ubuntu 14.04 Test') {
             dir('./opencmiss/build/manage/release/config/Release') {
-                sh '''
-                make keytests
-                '''
+                sh 'make keytests'
             }
         }
         stage('Ubuntu 14.04 Package') {
