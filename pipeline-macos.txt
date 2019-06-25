@@ -17,7 +17,7 @@ node('Mac10.12.3') {
             git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
         }
         dir('./setup-build') {
-            sh 'cmake -DCMAKE_INCLUDE_PATH=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/ -DOPENCMISS_LIBRARIES=iron -DOPENCMISS_ROOT=../opencmiss ../setup'
+            sh 'cmake -DCMAKE_C_FLAGS_RELEASE=-I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/ -DCMAKE_CXX_FLAGS_RELEASE=-I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/ -DOPENCMISS_LIBRARIES=iron -DOPENCMISS_ROOT=../opencmiss ../setup'
         }
     }
     stage('Make') {
