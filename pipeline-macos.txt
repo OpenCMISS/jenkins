@@ -17,17 +17,35 @@ node('Mac10.12.3') {
             git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
         }
         dir('./setup-build') {
-            sh 'cmake -DCMAKE_C_FLAGS_RELEASE=-I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/ -DCMAKE_CXX_FLAGS_RELEASE=-I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/ -DOPENCMISS_LIBRARIES=iron -DOPENCMISS_ROOT=../opencmiss ../setup'
+            '''
+            export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/
+            export C_INCLUDE_PATH=$C_INCLUDE_PATH:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/
+            export CPATH=$CPATH:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/
+            export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/
+            sh cmake -DOPENCMISS_LIBRARIES=iron -DOPENCMISS_ROOT=../opencmiss ../setup
+            '''
         }
     }
     stage('Make') {
         dir('./setup-build') {
-        	sh 'make'
+            '''
+            export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/
+            export C_INCLUDE_PATH=$C_INCLUDE_PATH:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/
+            export CPATH=$CPATH:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/
+            export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/
+        	sh make
+            '''
         }
     }
     stage('Test') {
         dir('./opencmiss/build/manage/release/config/Release') {
-            sh 'make keytests'
+            '''
+            export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/
+            export C_INCLUDE_PATH=$C_INCLUDE_PATH:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/
+            export CPATH=$CPATH:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/
+            export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/
+        	sh make keytests
+            '''
         }
     }
     stage('Package') {
