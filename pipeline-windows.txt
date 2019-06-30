@@ -1,5 +1,5 @@
 
-node('Windows8') {
+node('Windows10') {
     stage('Clean') {
         if (params.BUILD_CLEAN) {
             bat 'if exist opencmiss rd /q /s opencmiss'
