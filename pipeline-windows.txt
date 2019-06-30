@@ -2,8 +2,8 @@
 node('Windows10') {
     stage('Clean') {
         if (params.BUILD_CLEAN) {
-            bat 'rd /q /s opencmiss'
-            bat 'rd /q /s setup-build'
+            bat 'if exist opencmiss rd /q /s opencmiss'
+            bat 'if exist setup-build rd /q /s setup-build'
         }
     }
     stage('Update') {
