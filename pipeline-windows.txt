@@ -3,7 +3,7 @@ node('Windows10') {
     stage('Clean') {
         if (params.BUILD_CLEAN) {
             bat 'rd /q /s opencmiss'
-            cleanSetup()
+            bat 'rd /q /s setup-build'
         }
     }
     stage('Update') {
