@@ -2,7 +2,7 @@
 node('Windows10') {
     stage('Clean') {
         if (params.BUILD_CLEAN) {
-            bat 'del /q /s ./opencmiss'
+            bat 'rd /q /s ./opencmiss'
             cleanSetup()
         }
     }
