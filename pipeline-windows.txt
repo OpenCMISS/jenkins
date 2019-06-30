@@ -1,5 +1,5 @@
 
-node('Windows8') {
+node('Windows10') {
     stage('Clean') {
         if (params.BUILD_CLEAN) {
             cleanSetup()
@@ -16,7 +16,7 @@ node('Windows8') {
             git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
         }
         dir('./setup-build') {
-            bat '"C:\\Program Files\\CMake\\bin\\cmake.exe" -G"Visual Studio 14 2015 Win64" -DOPENCMISS_ROOT=../opencmiss ../setup'
+            bat '"C:\\Program Files\\CMake\\bin\\cmake.exe" -G"Visual Studio 14 2015 Win64" -DOPENCMISS_LIBRARIES=iron -DOPENCMISS_ROOT=../opencmiss ../setup'
         }
     }
     stage('Make') {
