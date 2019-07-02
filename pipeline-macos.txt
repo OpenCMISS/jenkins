@@ -3,7 +3,6 @@ node('Mac10.12.3') {
     stage('Clean') {
         if (params.BUILD_CLEAN) {
             cleanSetup()
-            sh 'rm -rf opencmiss'
         }
     }
     stage('Update') {
