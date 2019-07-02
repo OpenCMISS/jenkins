@@ -17,13 +17,6 @@ node('Mac10.12.3') {
         }
         dir('./setup-build') {
             sh '''
-            alias gcc=gcc-9
-            alias g++=g++-9
-            alias gfortran=gfortran-9
-            export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/libxml2
-            export C_INCLUDE_PATH=$C_INCLUDE_PATH:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/libxml2
-            export CPATH=$CPATH:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/libxml2
-            export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/
             cmake -DOPENCMISS_LIBRARIES=iron -DOPENCMISS_ROOT=../opencmiss ../setup
             '''
         }
@@ -31,13 +24,6 @@ node('Mac10.12.3') {
     stage('Make') {
         dir('./setup-build') {         
             sh '''
-            alias gcc=gcc-9
-            alias g++=g++-9
-            alias gfortran=gfortran-9
-            export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/libxml2
-            export C_INCLUDE_PATH=$C_INCLUDE_PATH:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/libxml2
-            export CPATH=$CPATH:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/libxml2
-            export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/
         	make
             '''
         }
@@ -45,13 +31,6 @@ node('Mac10.12.3') {
     stage('Test') {
         dir('./opencmiss/build/manage/release/config/Release') {
             sh '''
-            alias gcc=gcc-9
-            alias g++=g++-9
-            alias gfortran=gfortran-9
-            export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/libxml2
-            export C_INCLUDE_PATH=$C_INCLUDE_PATH:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/libxml2
-            export CPATH=$CPATH:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/libxml2
-            export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/
         	make keytests
             '''
         }
