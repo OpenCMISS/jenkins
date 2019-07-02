@@ -20,7 +20,7 @@
             }
     		dir('./setup-build') {
                 sh '''
-                . /home/intel/bin/compilervars.sh -arch intel64 -platform linux; 
+                source /home/intel/bin/compilervars.sh -arch intel64 -platform linux \n
                 export FC=ifort
                 export CC=icc
                 export CXX=icc
@@ -37,7 +37,7 @@
         stage('Ubuntu 16.04 Make') {
             dir('./setup-build') {
                 sh '''
-                . /home/intel/bin/compilervars.sh -arch intel64 -platform linux; 
+                . /home/intel/bin/compilervars.sh -arch intel64 -platform linux\n
                 export FC=ifort
                 export CC=icc
                 export CXX=icc
@@ -54,7 +54,7 @@
         stage('Ubuntu 16.04 Test') {
             dir('./opencmiss/build/manage/release/config/Release') {
                 sh '''
-                . /home/intel/bin/compilervars.sh -arch intel64 -platform linux; 
+                . /home/intel/bin/compilervars.sh -arch intel64 -platform linux\n
                 export FC=ifort
                 export CC=icc
                 export CXX=icc
