@@ -19,8 +19,7 @@ parallel 'Linux Intel': {
                 git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
             }
     		dir('./setup-build') {
-                sh
-                '''
+                sh '''
                 . /home/intel/bin/compilervars.sh -arch intel64 -platform linux
                 export FC=ifort
                 export CC=icc
@@ -37,8 +36,7 @@ parallel 'Linux Intel': {
         }
         stage('Linux Intel Make') {
             dir('./setup-build') {
-                sh
-                '''
+                sh '''
                 . /home/intel/bin/compilervars.sh -arch intel64 -platform linux
                 export FC=ifort
                 export CC=icc
@@ -55,8 +53,7 @@ parallel 'Linux Intel': {
         }
         stage('Linux Intel Test') {
             dir('./opencmiss/build/manage/release/config/Release') {
-                sh
-                '''
+                sh '''
                 . /home/intel/bin/compilervars.sh -arch intel64 -platform linux
                 export FC=ifort
                 export CC=icc
