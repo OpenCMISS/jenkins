@@ -6,10 +6,6 @@ parallel 'Ubuntu 16.04': {
             }
             if (params.DEEP_CLEAN) {
                 cleanSetup()
-                sh '''
-                rm -rf opencmiss
-                rm -rf setup-build
-                '''
             }
         }
         stage('Ubuntu 16.04 Update') {
@@ -60,7 +56,6 @@ parallel 'Ubuntu 16.04': {
         stage('Ubuntu 14.04 Clean') {
             if (params.BUILD_CLEAN) {
                 cleanSetup()
-                sh 'rm -rf opencmiss'
             }
         }
         stage('Ubuntu 14.04 Update') {
