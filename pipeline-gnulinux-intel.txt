@@ -21,7 +21,7 @@
     		dir('./setup-build') {
                 sh
                 """
-                . /home/intel/bin/compilervars.sh -arch intel64 -platform linux \n
+                . /home/intel/bin/compilervars.sh -arch intel64 -platform linux
                 export FC=ifort
                 export CC=icc
                 export CXX=icc
@@ -39,7 +39,7 @@
             dir('./setup-build') {
                 sh
                 """
-                . /home/intel/bin/compilervars.sh -arch intel64 -platform linux\n
+                . /home/intel/bin/compilervars.sh -arch intel64 -platform linux
                 export FC=ifort
                 export CC=icc
                 export CXX=icc
@@ -57,7 +57,7 @@
             dir('./opencmiss/build/manage/release/config/Release') {
                 sh
                 """
-                . /home/intel/bin/compilervars.sh -arch intel64 -platform linux\n
+                . /home/intel/bin/compilervars.sh -arch intel64 -platform linux
                 export FC=ifort
                 export CC=icc
                 export CXX=icc
