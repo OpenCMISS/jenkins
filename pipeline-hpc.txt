@@ -17,7 +17,7 @@ parallel 'hpc3-gcc': {
                 git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
             }
             dir('./setup-build') {
-                sh '/hpc_atog/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss ../setup'
+                sh '/hpc_atog/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup'
             }
         }
         stage('HPC3 Make') {
@@ -51,7 +51,7 @@ parallel 'hpc3-gcc': {
             dir('./setup-build') {
                 sh '''
                   . /opt/intel/compilers_and_libraries_2017/linux/bin/compilervars.sh intel64
-                  /hpc_atog/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss ../setup
+                  /hpc_atog/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup
                 '''
             }
         }
@@ -93,7 +93,7 @@ parallel 'hpc3-gcc': {
                 sh '''
                   source /etc/profile.d/modules.sh
                   module load mpi/mpich-3.2-x86_64
-                  /hpc/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss ../setup
+                  /hpc/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup
                 '''
             }
         }
