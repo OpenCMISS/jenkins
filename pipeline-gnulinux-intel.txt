@@ -20,7 +20,7 @@
             }
     		dir('./setup-build') {
                 sh '''
-                source /home/intel/bin/compilervars.sh -arch intel64 -platform linux \n
+                . /home/intel/bin/compilervars.sh -arch intel64 -platform linux \n
                 export FC=ifort
                 export CC=icc
                 export CXX=icc
