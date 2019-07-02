@@ -4,6 +4,13 @@ parallel 'Ubuntu 16.04': {
             if (params.BUILD_CLEAN) {
                 cleanSetup()
             }
+            if (params.DEEP_CLEAN) {
+                cleanSetup()
+                sh '''
+                rm -rf opencmiss
+                rm -rf setup-build
+                '''
+            }
         }
         stage('Ubuntu 16.04 Update') {
             if (!params.BUILD_CLEAN) {
