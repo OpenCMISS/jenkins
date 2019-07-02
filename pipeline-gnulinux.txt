@@ -3,7 +3,6 @@ parallel 'Ubuntu 16.04': {
         stage('Ubuntu 16.04 Clean') {
             if (params.BUILD_CLEAN) {
                 cleanSetup()
-                sh 'rm -rf opencmiss'
             }
         }
         stage('Ubuntu 16.04 Update') {
