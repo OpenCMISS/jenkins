@@ -1,6 +1,6 @@
 parallel 'Linux Intel': {
     node('Ubuntu_16.04_bioeng49') {
-        stage('Ubuntu 16.04 Clean') {
+        stage('Linux Intel Clean') {
             if (params.BUILD_CLEAN) {
                 cleanSetup()
             }
@@ -8,12 +8,12 @@ parallel 'Linux Intel': {
                 cleanSetup()
             }
         }
-        stage('Ubuntu 16.04 Update') {
+        stage('Linux Intel Update') {
             if (!params.BUILD_CLEAN) {
                 updateSource()
             }
         }
-        stage('Ubuntu 16.04 Configure') {
+        stage('Linux Intel Configure') {
             sh 'mkdir -p opencmiss'
             dir('./setup') {
                 git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
@@ -35,7 +35,7 @@ parallel 'Linux Intel': {
                 '''
     		}
         }
-        stage('Ubuntu 16.04 Make') {
+        stage('Linux Intel Make') {
             dir('./setup-build') {
                 sh
                 '''
@@ -53,7 +53,7 @@ parallel 'Linux Intel': {
                 '''
             }
         }
-        stage('Ubuntu 16.04 Test') {
+        stage('Linux Intel Test') {
             dir('./opencmiss/build/manage/release/config/Release') {
                 sh
                 '''
@@ -72,7 +72,7 @@ parallel 'Linux Intel': {
                 '''
             }
         }
-        stage('Ubuntu 16.04 Package') {
+        stage('Linux Intel Package') {
             dir('./opencmiss/build/manage/release/') {
                 if (params.DO_RELEASE) {
                     sh 'cmake -DOPENCMISS_RELEASE=ON .'
@@ -82,7 +82,7 @@ parallel 'Linux Intel': {
                 sh 'make package_sdk'
             }
         }        
-        stage('Ubuntu 16.04 Archive') {
+        stage('Linux Intel Archive') {
             dir('./opencmiss/build/manage/release/packaging/sdk/package/') {
                 archiveArtifacts artifacts: 'OpenCMISS-Libraries*'
             }
