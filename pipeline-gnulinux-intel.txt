@@ -1,4 +1,4 @@
-
+parallel 'Linux Intel': {
     node('Ubuntu_16.04_bioeng49') {
         stage('Ubuntu 16.04 Clean') {
             if (params.BUILD_CLEAN) {
@@ -91,3 +91,4 @@
                 echo "Finish"
         }
     }
+}
