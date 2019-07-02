@@ -51,6 +51,96 @@ parallel 'Ubuntu 16.04': {
                 echo "Finish"
         }
     }
+}, 'Ubuntu 16.04 Intel': {
+    node('Ubuntu_16.04_bioeng49') {
+        stage('Ubuntu 16.04 Clean') {
+            if (params.BUILD_CLEAN) {
+                cleanSetup()
+            }
+            if (params.DEEP_CLEAN) {
+                cleanSetup()
+            }
+        }
+        stage('Ubuntu 16.04 Update') {
+            if (!params.BUILD_CLEAN) {
+                updateSource()
+            }
+        }
+        stage('Ubuntu 16.04 Configure') {
+            sh 'mkdir -p opencmiss'
+            dir('./setup') {
+                git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
+            }
+    		dir('./setup-build') {
+                sh '''
+                . /home/intel/bin/compilervars.sh intel64 -platform linux
+                export FC=ifort
+                export CC=icc
+                export CXX=icc
+                export MPICH_FC=ifort
+                export MPICH_CC=icc
+                export MPICH_CXX=icc
+                export CMAKE_Fortran_COMPILER=ifort
+                export CMAKE_C_COMPILER=icc
+                export CMAKE_CXX_COMPILER=icc
+                cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup
+                '''
+    		}
+        }
+        stage('Ubuntu 16.04 Make') {
+            dir('./setup-build') {
+                sh '''
+                . /home/intel/bin/compilervars.sh intel64 -platform linux
+                export FC=ifort
+                export CC=icc
+                export CXX=icc
+                export MPICH_FC=ifort
+                export MPICH_CC=icc
+                export MPICH_CXX=icc
+                export CMAKE_Fortran_COMPILER=ifort
+                export CMAKE_C_COMPILER=icc
+                export CMAKE_CXX_COMPILER=icc
+                make
+                '''
+            }
+        }
+        stage('Ubuntu 16.04 Test') {
+            dir('./opencmiss/build/manage/release/config/Release') {
+                sh '''
+                . /home/intel/bin/compilervars.sh intel64 -platform linux
+                export FC=ifort
+                export CC=icc
+                export CXX=icc
+                export MPICH_FC=ifort
+                export MPICH_CC=icc
+                export MPICH_CXX=icc
+                export CMAKE_Fortran_COMPILER=ifort
+                export CMAKE_C_COMPILER=icc
+                export CMAKE_CXX_COMPILER=icc
+
+                make keytests
+                '''
+            }
+        }
+        stage('Ubuntu 16.04 Package') {
+            dir('./opencmiss/build/manage/release/') {
+                if (params.DO_RELEASE) {
+                    sh 'cmake -DOPENCMISS_RELEASE=ON .'
+                } else {
+                    sh 'cmake -DOPENCMISS_RELEASE=OFF .'
+                }
+                sh 'make package_sdk'
+            }
+        }        
+        stage('Ubuntu 16.04 Archive') {
+            dir('./opencmiss/build/manage/release/packaging/sdk/package/') {
+                archiveArtifacts artifacts: 'OpenCMISS-Libraries*'
+            }
+        }
+        stage('Ubuntu 16.04 Finish') {
+                echo "Finish"
+        }
+    }
 }, 'Ubuntu 14.04': {
     node('1034_Ubuntu') {
         stage('Ubuntu 14.04 Clean') {
