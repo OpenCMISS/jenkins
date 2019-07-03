@@ -84,7 +84,7 @@ parallel 'Linux Intel': {
                 archiveArtifacts artifacts: 'OpenCMISS-Libraries*'
             }
         }
-        stage('Ubuntu 16.04 Finish') {
+        stage('Linux Intel Finish') {
                 echo "Finish"
         }
     }
