@@ -64,7 +64,6 @@ parallel 'Linux Intel': {
                 export CMAKE_Fortran_COMPILER=ifort
                 export CMAKE_C_COMPILER=icc
                 export CMAKE_CXX_COMPILER=icc
-                export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/intel/mkl/lib/intel64_lin
                 LD_PRELOAD=/home/intel/compilers_and_libraries_2019.3.199/linux/mkl/lib/intel64_lin/libmkl_core.so:/home/intel/compilers_and_libraries_2019.3.199/linux/mkl/lib/intel64_lin/libmkl_sequential.so make keytests
                 """
             }
