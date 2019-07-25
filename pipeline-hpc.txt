@@ -18,7 +18,18 @@ parallel 'hpc6-intel': {
             }
             dir('./setup-build') {
                 sh '''
-                  . /opt/intel/compilers_and_libraries_2017/linux/bin/compilervars.sh intel64
+                  #!/bin/bash
+                  module load intel/intel_compilers-2019
+                  module load mpi/mpich-3.2-x86_64
+                  export FC=ifort
+                  export CC=icc
+                  export CXX=icc
+                  export MPICH_FC=ifort
+                  export MPICH_CC=icc
+                  export MPICH_CXX=icc
+                  export CMAKE_Fortran_COMPILER=ifort
+                  export CMAKE_C_COMPILER=icc
+                  export CMAKE_CXX_COMPILER=icc
                   /hpc_atog/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup
                 '''
             }
@@ -26,7 +37,18 @@ parallel 'hpc6-intel': {
         stage('HPC6 Make') {
             dir('./setup-build') {
                 sh '''
-                  . /opt/intel/compilers_and_libraries_2017/linux/bin/compilervars.sh intel64
+                  #!/bin/bash
+                  module load intel/intel_compilers-2019
+                  module load mpi/mpich-3.2-x86_64
+                  export FC=ifort
+                  export CC=icc
+                  export CXX=icc
+                  export MPICH_FC=ifort
+                  export MPICH_CC=icc
+                  export MPICH_CXX=icc
+                  export CMAKE_Fortran_COMPILER=ifort
+                  export CMAKE_C_COMPILER=icc
+                  export CMAKE_CXX_COMPILER=icc
                   make
                 '''
             }
@@ -34,7 +56,18 @@ parallel 'hpc6-intel': {
         stage('HPC6 Test') {
             dir('./setup-build') {
                 sh '''
-                  . /opt/intel/compilers_and_libraries_2017/linux/bin/compilervars.sh intel64
+                  #!/bin/bash
+                  module load intel/intel_compilers-2019
+                  module load mpi/mpich-3.2-x86_64
+                  export FC=ifort
+                  export CC=icc
+                  export CXX=icc
+                  export MPICH_FC=ifort
+                  export MPICH_CC=icc
+                  export MPICH_CXX=icc
+                  export CMAKE_Fortran_COMPILER=ifort
+                  export CMAKE_C_COMPILER=icc
+                  export CMAKE_CXX_COMPILER=icc
                   make keytests
                 '''
             }
