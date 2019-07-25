@@ -1,6 +1,5 @@
 
-parallel 'hpc3-gcc': {
-'hpc6-intel': {
+parallel 'hpc6-intel': {
     node('hpc6') {
         stage('HPC6 Clean') {
             if (params.BUILD_CLEAN) {
