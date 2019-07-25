@@ -1,37 +1,5 @@
 
 parallel 'hpc3-gcc': {
-#    node('hpc3') {
-#        stage('HPC3 Clean') {
-#            if (params.BUILD_CLEAN) {
-#                cleanSetup()
-#            }
-#        }
-#        stage('HPC3 Update') {
-#            if (!params.BUILD_CLEAN) {
-#                updateSource()
-#            }
-#        }
-#        stage('HPC3 Configure') {
-#            sh 'mkdir -p opencmiss'
-#            dir('./setup') {
-#                git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
-#            }
-#            dir('./setup-build') {
-#                sh '/hpc_atog/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss -#DOPENCMISS_LIBRARIES=iron ../setup'
-#            }
-#        }
-#        stage('HPC3 Make') {
-#            dir('./setup-build') {
-#                sh 'make'
-#           }
-#        }
-#        stage('HPC3 Test') {
-#            dir('./opencmiss/build/manage/release/config/Release') {
-#                sh 'make keytests'
-#            }
-#        }
-#    }
-#}, 
 'hpc6-intel': {
     node('hpc6') {
         stage('HPC6 Clean') {
