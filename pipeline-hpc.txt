@@ -17,8 +17,7 @@ parallel 'hpc6-intel': {
                 git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
             }
             dir('./setup-build') {
-                sh '''
-                  #!/bin/bash
+                sh """#!/bin/bash
                   module load intel/intel_compilers-2019
                   module load mpi/mpich-3.2-x86_64
                   export FC=ifort
@@ -31,13 +30,12 @@ parallel 'hpc6-intel': {
                   export CMAKE_C_COMPILER=icc
                   export CMAKE_CXX_COMPILER=icc
                   /hpc_atog/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup
-                '''
+                """
             }
         }
         stage('HPC6 Make') {
             dir('./setup-build') {
-                sh '''
-                  #!/bin/bash
+                sh """#!/bin/bash
                   module load intel/intel_compilers-2019
                   module load mpi/mpich-3.2-x86_64
                   export FC=ifort
@@ -50,13 +48,12 @@ parallel 'hpc6-intel': {
                   export CMAKE_C_COMPILER=icc
                   export CMAKE_CXX_COMPILER=icc
                   make
-                '''
+                """
             }
         }
         stage('HPC6 Test') {
             dir('./setup-build') {
-                sh '''
-                  #!/bin/bash
+                sh sh """#!/bin/bash
                   module load intel/intel_compilers-2019
                   module load mpi/mpich-3.2-x86_64
                   export FC=ifort
@@ -69,7 +66,7 @@ parallel 'hpc6-intel': {
                   export CMAKE_C_COMPILER=icc
                   export CMAKE_CXX_COMPILER=icc
                   make keytests
-                '''
+                """
             }
         }
     }
