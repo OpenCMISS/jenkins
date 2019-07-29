@@ -51,7 +51,7 @@ parallel 'hpc6-intel': {
         }
         stage('HPC6 Test') {
             dir('./setup-build') {
-                sh sh """#!/bin/bash
+                sh """#!/bin/bash
                   . /opt/intel/compilers_and_libraries_2017/linux/bin/compilervars.sh intel64
                   export FC=ifort
                   export CC=icc
@@ -65,7 +65,8 @@ parallel 'hpc6-intel': {
                   make keytests
                 """
             }
-     }
+        }
+   }   
 }, 'hpc5-mpich': {
     node('hpc5') {
         stage('HPC5 Clean') {
