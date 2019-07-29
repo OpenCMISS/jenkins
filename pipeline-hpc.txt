@@ -88,35 +88,35 @@ parallel 'hpc6-intel': {
                 git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
             }
             dir('./setup-build') {
-                sh '''
+                sh """#!/bin/bash
                   source /etc/profile.d/modules.sh
                   module load mpi/mpich-3.2-x86_64
                   source ~/python3.env/bin/activate
                   /hpc/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup
                   deactivate
-                '''
+                """
             }
         }
         stage('HPC5 Make') {
             dir('./setup-build') {
-                sh '''
+                sh """#!/bin/bash
                   source /etc/profile.d/modules.sh
                   module load mpi/mpich-3.2-x86_64
                   source ~/python3.env/bin/activate
                   make
                   deactivate
-                '''
+                """
             }
         }
         stage('HPC5 Test') {
             dir('./setup-build') {
-                sh '''
+                sh """#!/bin/bash
                   source /etc/profile.d/modules.sh
                   module load mpi/mpich-3.2-x86_64
                   source ~/python3.env/bin/activate
                   make keytests
                   deactivate
-                '''
+                """
             }
         }
     }
