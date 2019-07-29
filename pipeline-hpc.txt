@@ -20,7 +20,6 @@ parallel 'hpc6-intel': {
                 sh """#!/bin/bash
                   #. /opt/intel/compilers_and_libraries_2017/linux/bin/compilervars.sh intel64
                   module load intel/intel_compilers-2019
-                  module load mpi/mpich-3.2-x86_64
                   export FC=ifort
                   export CC=icc
                   export CXX=icc
@@ -39,7 +38,6 @@ parallel 'hpc6-intel': {
                 sh """#!/bin/bash
 #                  . /opt/intel/compilers_and_libraries_2017/linux/bin/compilervars.sh intel64
                   module load intel/intel_compilers-2019
-                  module load mpi/mpich-3.2-x86_64
                   export FC=ifort
                   export CC=icc
                   export CXX=icc
@@ -58,7 +56,6 @@ parallel 'hpc6-intel': {
                 sh sh """#!/bin/bash
 #                  . /opt/intel/compilers_and_libraries_2017/linux/bin/compilervars.sh intel64
                   module load intel/intel_compilers-2019
-                  module load mpi/mpich-3.2-x86_64
                   export FC=ifort
                   export CC=icc
                   export CXX=icc
