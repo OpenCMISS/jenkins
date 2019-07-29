@@ -91,7 +91,7 @@ parallel 'hpc6-intel': {
                 sh """#!/bin/bash
                   source /etc/profile.d/modules.sh
                   module load mpi/mpich-3.2-x86_64
-                  source ~/python3.env/bin/activate
+                  source ~/python3.env.hpc5/bin/activate
                   /hpc/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup
                   deactivate
                 """
@@ -102,7 +102,7 @@ parallel 'hpc6-intel': {
                 sh """#!/bin/bash
                   source /etc/profile.d/modules.sh
                   module load mpi/mpich-3.2-x86_64
-                  source ~/python3.env/bin/activate
+                  source ~/python3.env.hpc5/bin/activate
                   make
                   deactivate
                 """
@@ -113,7 +113,7 @@ parallel 'hpc6-intel': {
                 sh """#!/bin/bash
                   source /etc/profile.d/modules.sh
                   module load mpi/mpich-3.2-x86_64
-                  source ~/python3.env/bin/activate
+                  source ~/python3.env.hpc5/bin/activate
                   make keytests
                   deactivate
                 """
