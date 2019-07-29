@@ -65,8 +65,7 @@ parallel 'hpc6-intel': {
                   make keytests
                 """
             }
-        }
-    }
+     }
 }, 'hpc5-mpich': {
     node('hpc5') {
         stage('HPC5 Clean') {
