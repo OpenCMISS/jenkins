@@ -19,7 +19,7 @@ node('Windows10') {
         dir('./setup-build') {
             bat '''
             set Path=%Path%;C:\\Python37_x64
-            set MKL_DIR="C:\\Program Files (x86)\\IntelSWTools\\compilers_and_libraries_2018\\windows\\mkl\\lib\\intel64_win"
+            set MKL_ROOT="C:\\Program Files (x86)\\IntelSWTools\\compilers_and_libraries_2018\\windows\\mkl\\lib\\intel64_win"
             call "C:\\Program Files (x86)\\IntelSWTools\\compilers_and_libraries_2018.5.274\\windows\\bin\\ipsxe-comp-vars.bat" intel64 vs2017
             "C:\\Program Files\\CMake\\bin\\cmake.exe" -G"Visual Studio 14 2015 Win64" -DOPENCMISS_LIBRARIES=iron -DOPENCMISS_ROOT=../opencmiss ../setup
             '''
@@ -29,7 +29,7 @@ node('Windows10') {
         dir('./setup-build') {
             bat '''
             set Path=%Path%;C:\\Python37_x64
-            set MKL_DIR="C:\\Program Files (x86)\\IntelSWTools\\compilers_and_libraries_2018\\windows\\mkl\\lib\\intel64_win"
+            set MKL_ROOT="C:\\Program Files (x86)\\IntelSWTools\\compilers_and_libraries_2018\\windows\\mkl\\lib\\intel64_win"
             call "C:\\Program Files (x86)\\IntelSWTools\\compilers_and_libraries_2018.5.274\\windows\\bin\\ipsxe-comp-vars.bat" intel64 vs2017
             "C:\\Program Files\\CMake\\bin\\cmake.exe" --build . --config Release
             '''
@@ -39,7 +39,7 @@ node('Windows10') {
         dir('./opencmiss/build/manage/config/') {
             bat '''
             set Path=%Path%;C:\\Python37_x64
-            set MKL_DIR="C:\\Program Files (x86)\\IntelSWTools\\compilers_and_libraries_2018\\windows\\mkl\\lib\\intel64_win"
+            set MKL_ROOT="C:\\Program Files (x86)\\IntelSWTools\\compilers_and_libraries_2018\\windows\\mkl\\lib\\intel64_win"
             call "C:\\Program Files (x86)\\IntelSWTools\\compilers_and_libraries_2018.5.274\\windows\\bin\\ipsxe-comp-vars.bat" intel64 vs2017
             "C:\\Program Files\\CMake\\bin\\cmake.exe" --build . --target keytests --config Release
             '''
