@@ -1,14 +1,14 @@
 parallel 'Ubuntu 16.04': {
     node('Ubuntu_16.04_bioeng49') {
-        ws ('/home/cmiss/Jenkins/workspace/OpenCMISS_Dependencies_GNULinux') {
+        ws ('/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux') {
             stage('Ubuntu 16.04 Prepare') {
-                dir('./opencmiss_libraries') {
+                dir('./opencmiss') {
                     deleteDir()
                 }
-                dir('./opencmiss_libraries') {
+                dir('./opencmiss') {
                     writeFile file:'ignore', text:''
                 }
-                dir('./setup_libraries-build') {
+                dir('./setup-build') {
                     deleteDir()
                 }
             }
@@ -21,18 +21,18 @@ parallel 'Ubuntu 16.04': {
                 }
             }
             stage('Ubuntu 16.04 Configure Libraries') {
-                dir('./setup_libraries-build') {
-                    sh 'cmake  -DOPENCMISS_SETUP_TYPE=libraries -DOPENCMISS_LIBRARIES_ROOT=../opencmiss_libraries -DOPENCMISS_DEPENDENCIES_INSTALL_PREFIX=/home/cmiss/Jenkins/workspace/OpenCMISS_Dependencies_GNULinux/opencmiss_dependencies/install -DOPENCMISS_CMAKE_MODULE_PATH=/home/cmiss/Jenkins/workspace/OpenCMISS_Dependencies_GNULinux/opencmiss_dependencies/install/share/cmake/Modules ../setup'
+                dir('./setup-build') {
+                    sh 'cmake  -DOPENCMISS_SETUP_TYPE=libraries -DOPENCMISS_LIBRARIES_ROOT=../opencmiss -DOPENCMISS_DEPENDENCIES_INSTALL_PREFIX=/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install -DOPENCMISS_CMAKE_MODULE_PATH=/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/share/cmake/Modules ../setup'
                 }
             }
             stage('Ubuntu 16.04 Make Libraries') {
-                dir('./setup_libraries-build') {
+                dir('./setup-build') {
                     sh 'make'
                 }
             }
             stage('Ubuntu 16.04 Configure Tests') {
                 dir('./test_framework-build') {
-                    sh 'cmake -DOpenCMISSLibs_DIR=/home/cmiss/Jenkins/workspace/OpenCMISS_Dependencies_GNULinux/opencmiss_libraries/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} ../test_framework'
+                    sh 'cmake -DOpenCMISSLibs_DIR=/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} ../test_framework'
                 }
             }
             stage('Ubuntu 16.04 Make Tests') {
@@ -44,15 +44,15 @@ parallel 'Ubuntu 16.04': {
     }
 }, 'Ubuntu 14.04': {
     node('1034_Ubuntu') {
-        ws ('/home/opencmiss/Jenkins/workspace/OpenCMISS_Dependencies_GNULinux') {
+        ws ('/home/opencmiss/Jenkins/workspace/OpenCMISS_GNULinux') {
             stage('Ubuntu 14.04 Prepare') {
-                dir('./opencmiss_libraries') {
+                dir('./opencmiss') {
                     deleteDir()
                 }
-                dir('./opencmiss_libraries') {
+                dir('./opencmiss') {
                     writeFile file:'ignore', text:''
                 }
-                dir('./setup_libraries-build') {
+                dir('./setup-build') {
                     deleteDir()
                 }
             }
@@ -65,18 +65,18 @@ parallel 'Ubuntu 16.04': {
                 }
             }
             stage('Ubuntu 14.04 Configure Libraries') {
-                dir('./setup_libraries-build') {
-                    sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake  -DOPENCMISS_SETUP_TYPE=libraries -DOPENCMISS_LIBRARIES_ROOT=../opencmiss_libraries -DOPENCMISS_DEPENDENCIES_INSTALL_PREFIX=/home/opencmiss/Jenkins/workspace/OpenCMISS_Dependencies_GNULinux/opencmiss_dependencies/install -DOPENCMISS_CMAKE_MODULE_PATH=/home/opencmiss/Jenkins/workspace/OpenCMISS_Dependencies_GNULinux/opencmiss_dependencies/install/share/cmake/Modules ../setup'
+                dir('./setup-build') {
+                    sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake  -DOPENCMISS_SETUP_TYPE=libraries -DOPENCMISS_LIBRARIES_ROOT=../opencmiss -DOPENCMISS_DEPENDENCIES_INSTALL_PREFIX=/home/opencmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install -DOPENCMISS_CMAKE_MODULE_PATH=/home/opencmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/share/cmake/Modules ../setup'
                 }
             }
             stage('Ubuntu 14.04 Make Libraries') {
-                dir('./setup_libraries-build') {
+                dir('./setup-build') {
                     sh 'make'
                 }
             }
             stage('Ubuntu 14.04 Configure Tests') {
                 dir('./test_framework-build') {
-                    sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DOpenCMISSLibs_DIR=/home/opencmiss/Jenkins/workspace/OpenCMISS_Dependencies_GNULinux/opencmiss_libraries/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} ../test_framework'
+                    sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DOpenCMISSLibs_DIR=/home/opencmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} ../test_framework'
                 }
             }
             stage('Ubuntu 14.04 Make Tests') {
