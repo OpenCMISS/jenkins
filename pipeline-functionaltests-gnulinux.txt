@@ -5,9 +5,6 @@ parallel 'Ubuntu 16.04': {
                 dir('./opencmiss') {
                     deleteDir()
                 }
-                dir('./opencmiss') {
-                    writeFile file:'ignore', text:''
-                }
                 dir('./setup-build') {
                     deleteDir()
                 }
@@ -22,7 +19,7 @@ parallel 'Ubuntu 16.04': {
             }
             stage('Ubuntu 16.04 Configure Libraries') {
                 dir('./setup-build') {
-                    sh 'cmake  -DOPENCMISS_SETUP_TYPE=libraries -DOPENCMISS_LIBRARIES_ROOT=../opencmiss -DOPENCMISS_DEPENDENCIES_INSTALL_PREFIX=/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install -DOPENCMISS_CMAKE_MODULE_PATH=/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/share/cmake/Modules ../setup'
+                    sh 'cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup'
                 }
             }
             stage('Ubuntu 16.04 Make Libraries') {
@@ -49,9 +46,6 @@ parallel 'Ubuntu 16.04': {
                 dir('./opencmiss') {
                     deleteDir()
                 }
-                dir('./opencmiss') {
-                    writeFile file:'ignore', text:''
-                }
                 dir('./setup-build') {
                     deleteDir()
                 }
@@ -66,7 +60,7 @@ parallel 'Ubuntu 16.04': {
             }
             stage('Ubuntu 14.04 Configure Libraries') {
                 dir('./setup-build') {
-                    sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake  -DOPENCMISS_SETUP_TYPE=libraries -DOPENCMISS_LIBRARIES_ROOT=../opencmiss -DOPENCMISS_DEPENDENCIES_INSTALL_PREFIX=/home/opencmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install -DOPENCMISS_CMAKE_MODULE_PATH=/home/opencmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/share/cmake/Modules ../setup'
+                    sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss  -DOPENCMISS_LIBRARIES=iron ../setup'
                 }
             }
             stage('Ubuntu 14.04 Make Libraries') {
