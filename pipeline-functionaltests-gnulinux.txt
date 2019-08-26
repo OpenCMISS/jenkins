@@ -62,7 +62,7 @@ parallel 'Ubuntu 16.04': {
             }
             stage('Ubuntu 14.04 Configure Libraries') {
                 dir('./setup-build') {
-                    sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss  -DOPENCMISS_LIBRARIES=iron ../setup'
+                    sh 'cmake -DOPENCMISS_ROOT=../opencmiss  -DOPENCMISS_LIBRARIES=iron ../setup'
                 }
             }
             stage('Ubuntu 14.04 Make Libraries') {
@@ -72,7 +72,7 @@ parallel 'Ubuntu 16.04': {
             }
             stage('Ubuntu 14.04 Configure Tests') {
                 dir('./test_framework-build') {
-                    sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DOpenCMISSLibs_DIR=/home/opencmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} ../test_framework'
+                    sh 'cmake -DOpenCMISSLibs_DIR=/home/opencmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} ../test_framework'
                 }
             }
             stage('Ubuntu 14.04 Make Tests') {
