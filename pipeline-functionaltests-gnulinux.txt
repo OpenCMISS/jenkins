@@ -10,6 +10,7 @@ parallel 'Ubuntu 16.04': {
                 }
             }
             stage('Ubuntu 16.04 Clone') {
+                sh 'mkdir -p opencmiss'
                 dir('./setup') {
                     git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
                 }
@@ -51,6 +52,7 @@ parallel 'Ubuntu 16.04': {
                 }
             }
             stage('Ubuntu 14.04 Clone') {
+                sh 'mkdir -p opencmiss'
                 dir('./setup') {
                     git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
                 }
