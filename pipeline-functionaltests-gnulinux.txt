@@ -24,13 +24,15 @@ parallel 'Ubuntu 16.04': {
             }
             stage('Ubuntu 16.04 Configure Tests') {
                 dir('./test_framework-build') {
-                    sh 'cmake -DOpenCMISSLibs_DIR=/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} -DTEST_DB=/home/cmiss/Jenkins/workspace/test_db/test1.cmake ../test_framework'
+                    sh 'cmake -DOpenCMISSLibs_DIR=/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} -DTEST_DB=/home/cmiss/Jenkins/workspace/test_db ../test_framework'
                 }
             }
             stage('Ubuntu 16.04 Make Tests') {
                 dir('./test_framework-build') {
-                    sh 'make'
-                }
+                sh '''
+  export PYTHONPATH=$PYTHONPATH:/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/lib/python2.7/opencmiss.iron/
+                    make
+                    '''                }
             }
         }
     }
