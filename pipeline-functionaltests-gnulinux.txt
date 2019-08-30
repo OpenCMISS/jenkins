@@ -30,7 +30,8 @@ parallel 'Ubuntu 16.04': {
             stage('Ubuntu 16.04 Make Tests') {
                 dir('./test_framework-build') {
                 sh '''
-  export PYTHONPATH=$PYTHONPATH:/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/lib/python2.7/opencmiss.iron/
+                source /home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/virtual_environments/oclibs_venv_py36_release/bin/activate
+  export PYTHONPATH=$PYTHONPATH:/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/lib/python3.6/opencmiss.iron/
                     make
                     '''                }
             }
