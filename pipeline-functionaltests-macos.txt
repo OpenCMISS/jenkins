@@ -25,7 +25,7 @@ node('Mac10.12.3') {
         stage('Configure Tests') {
             dir('./test_framework-build') {
                 sh '''#!/bin/bash
-                cmake -DOpenCMISSLibs_DIR=/Users/cmiss/jenkins/workspace/OpenCMISS_MacOS/opencmiss_libraries/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} -DTEST_DB=/Users/cmiss/jenkins/workspace/test_db ../test_framework
+                cmake -DOpenCMISSLibs_DIR=/Users/cmiss/jenkins/workspace/OpenCMISS_MacOS/opencmiss/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} -DTEST_DB=/Users/cmiss/jenkins/workspace/test_db ../test_framework
                 '''
             }
         }
