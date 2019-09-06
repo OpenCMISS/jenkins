@@ -64,7 +64,7 @@ parallel 'Ubuntu 16.04': {
             }
             stage('Ubuntu 14.04 Configure Tests') {
                 dir('./test_framework-build') {
-                    sh 'cmake -DOpenCMISSLibs_DIR=/home/opencmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} -DTEST_DB=/home/opencmiss/Jenkins/workspace/test_db ../test_framework'
+                    sh 'cmake -DOpenCMISSLibs_DIR=/home/opencmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} -DTEST_DB=test_db/tests ../test_framework'
                 }
             }
             stage('Ubuntu 14.04 Make Tests') {
