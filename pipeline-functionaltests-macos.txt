@@ -33,6 +33,9 @@ node('Mac10.12.3') {
             }
         }
         stage('Make Tests') {
+             options {
+                 timeout(time: 1, unit: 'HOURS') 
+             }
             dir('./test_framework-build') {
                 sh '''#!/bin/bash
                 source /Users/cmiss/jenkins/workspace/OpenCMISS_MacOS/opencmiss/install/virtual_environments/oclibs_venv_py37_release/bin/activate
