@@ -1,9 +1,6 @@
 
 node('Mac10.12.3') {
     ws ('/Users/cmiss/jenkins/workspace/OpenCMISS_MacOS') {
-             options {
-                 timeout(time: 1, unit: 'HOURS') 
-             }
         stage('Prepare') {
             sh 'mkdir -p opencmiss'
         }
