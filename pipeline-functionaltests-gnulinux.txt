@@ -70,8 +70,10 @@ parallel 'Ubuntu 16.04': {
             stage('Ubuntu 14.04 Make Tests') {
                 dir('./test_framework-build') {
                     sh '''
+                    /home/opencmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/virtual_environments/oclibs_venv_py27_release/bin/activate
                     export PYTHONPATH=$PYTHONPATH:/home/opencmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/lib/python2.7/opencmiss.iron/
                     make
+                    deactivate
                     '''
                 }
             }
