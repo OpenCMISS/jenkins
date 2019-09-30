@@ -23,9 +23,17 @@ node('Mac10.12.3') {
             git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
         }
         dir('./setup-build') {
+            if (params.BUILD_DEBUG) {
             sh '''
-            cmake -DOPENCMISS_LIBRARIES=iron -DOPENCMISS_ROOT=../opencmiss ../setup
+            cmake -DOPENCMISS_LIBRARIES=iron -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_CONFIG_BUILD_TYPE=Debug ../setup
             '''
+            }
+            else
+            {
+            sh '''
+            cmake -DOPENCMISS_LIBRARIES=iron -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_CONFIG_BUILD_TYPE=Release ../setup
+            '''
+            }
         }
     }
     stage('Make') {
