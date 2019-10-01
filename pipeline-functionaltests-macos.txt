@@ -14,7 +14,12 @@ node('Mac10.12.3') {
         }
         stage('Configure Libraries') {
             dir('./setup-build') {
-                sh 'cmake -DOPENCMISS_ROOT=../opencmiss DOPENCMISS_LIBRARIES=iron ../setup'
+                if (params.BUILD_DEBUG) {
+                    sh 'cmake -DOPENCMISS_ROOT=../opencmiss DOPENCMISS_LIBRARIES=iron -DOPENCMISS_CONFIG_BUILD_TYPE=Debug ../setup'
+                }
+                else {
+                    sh 'cmake -DOPENCMISS_ROOT=../opencmiss DOPENCMISS_LIBRARIES=iron -DOPENCMISS_CONFIG_BUILD_TYPE=Release ../setup'
+                }
             }
         }
         stage('Make Libraries') {
