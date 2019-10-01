@@ -65,6 +65,7 @@ node('Mac10.12.3') {
                     deactivate
                     '''
                 }
+            }
         }
     }
 }
