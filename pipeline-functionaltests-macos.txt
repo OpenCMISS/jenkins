@@ -49,12 +49,22 @@ node('Mac10.12.3') {
         }
         stage('Make Tests') {
             dir('./test_framework-build') {
-                sh '''#!/bin/bash
-                source /Users/cmiss/jenkins/workspace/OpenCMISS_MacOS/opencmiss/install/virtual_environments/oclibs_venv_py37_release/bin/activate
-                export PYTHONPATH=$PYTHONPATH:/Users/cmiss/jenkins/workspace/OpenCMISS_MacOS/opencmiss/install/lib/python3.7/opencmiss.iron/
-                make
-                '''
-            }
+                if (params.BUILD_DEBUG) {
+                    sh '''#!/bin/bash
+                    source /Users/cmiss/jenkins/workspace/OpenCMISS_MacOS/opencmiss/install/virtual_environments/oclibs_venv_py37_debug/bin/activate
+                    export PYTHONPATH=$PYTHONPATH:/Users/cmiss/jenkins/workspace/OpenCMISS_MacOS/opencmiss/install/lib/python3.7/opencmiss.iron/
+                    make
+                    deactivate
+                    '''
+                }
+                else {
+                    sh '''#!/bin/bash
+                    source /Users/cmiss/jenkins/workspace/OpenCMISS_MacOS/opencmiss/install/virtual_environments/oclibs_venv_py37_release/bin/activate
+                    export PYTHONPATH=$PYTHONPATH:/Users/cmiss/jenkins/workspace/OpenCMISS_MacOS/opencmiss/install/lib/python3.7/opencmiss.iron/
+                    make
+                    deactivate
+                    '''
+                }
         }
     }
 }
