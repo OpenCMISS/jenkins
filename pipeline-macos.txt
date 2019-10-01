@@ -86,11 +86,6 @@ node('Mac10.12.3') {
                 archiveArtifacts artifacts: 'OpenCMISS-Libraries*'
             }
         }
-        if(params.BUILD_DEBUG) {
-            dir('./opencmiss/build/manage/debug/packaging/sdk/package/') {
-                archiveArtifacts artifacts: 'OpenCMISS-Libraries*'
-            }
-        }
     }
     stage('Finish') {
         echo "Finish"
