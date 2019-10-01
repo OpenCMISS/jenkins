@@ -44,13 +44,24 @@ node('Mac10.12.3') {
         }
     }
     stage('Test') {
+    if (params.BUILD_DEBUG) {
+        dir('./opencmiss/build/manage/release/config/Debug') {
+            sh '''
+        	make keytests
+            '''
+        }
+    }
+    else
+    {
         dir('./opencmiss/build/manage/release/config/Release') {
             sh '''
         	make keytests
             '''
         }
     }
+    }
     stage('Package') {
+    if (!params.BUILD_DEBUG) {
         dir('./opencmiss/build/manage/release/') {
             if (params.DO_RELEASE) {
                 sh 'cmake -DOPENCMISS_RELEASE=ON .'
@@ -59,6 +70,7 @@ node('Mac10.12.3') {
             }
             sh 'make package_sdk'
         }
+    }
     }
     stage('Archive') {
         dir('./opencmiss/build/manage/release/packaging/sdk/package/') {
