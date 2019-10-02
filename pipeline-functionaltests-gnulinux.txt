@@ -14,7 +14,12 @@ parallel 'Ubuntu 16.04': {
             }
             stage('Ubuntu 16.04 Configure Libraries') {
                 dir('./setup-build') {
-                    sh 'cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup'
+                    if(params.BUILD_DEBUG) {
+                        sh 'cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron -DOPENCMISS_CONFIG_BUILD_TYPE=Debug ../setup'
+                    }
+                    if(params.BUILD_RELEASE) {
+                        sh 'cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron -DOPENCMISS_CONFIG_BUILD_TYPE=Release ../setup'
+                    }
                 }
             }
             stage('Ubuntu 16.04 Make Libraries') {
@@ -24,17 +29,32 @@ parallel 'Ubuntu 16.04': {
             }
             stage('Ubuntu 16.04 Configure Tests') {
                 dir('./test_framework-build') {
-                    sh 'cmake -DOpenCMISSLibs_DIR=/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} -DTEST_DB=test_db/tests ../test_framework'
+                    if(params.BUILD_RELEASE) {
+                        sh 'cmake -DOpenCMISSLibs_DIR=/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} -DTEST_DB=test_db/tests -DOPENCMISS_CONFIG_BUILD_TYPE=Release ../test_framework'
+                    }
+                    if(params.BUILD_DEBUG) {
+                        sh 'cmake -DOpenCMISSLibs_DIR=/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} -DTEST_DB=test_db/tests -DOPENCMISS_CONFIG_BUILD_TYPE=Debug ../test_framework'
+                    }
                 }
             }
             stage('Ubuntu 16.04 Make Tests') {
                 dir('./test_framework-build') {
-                sh '''#!/bin/bash
-                source /home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/virtual_environments/oclibs_venv_py36_release/bin/activate
-  export PYTHONPATH=$PYTHONPATH:/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/lib/python3.6/opencmiss.iron/
+                if(params.BUILD_RELEASE) {
+                    sh '''#!/bin/bash
+                    source /home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/virtual_environments/oclibs_venv_py36_release/bin/activate
+                    export PYTHONPATH=$PYTHONPATH:/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/lib/python3.6/opencmiss.iron/
                     make
                     deactivate
-                    '''                }
+                    '''                
+                }
+                if(params.BUILD_DEBUG) {
+                    sh '''#!/bin/bash
+                    source /home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/virtual_environments/oclibs_venv_py36_debug/bin/activate
+                    export PYTHONPATH=$PYTHONPATH:/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/lib/python3.6/opencmiss.iron/
+                    make
+                    deactivate
+                    '''                
+                }
             }
         }
     }
@@ -54,7 +74,12 @@ parallel 'Ubuntu 16.04': {
             }
             stage('Ubuntu 14.04 Configure Libraries') {
                 dir('./setup-build') {
-                    sh 'cmake -DOPENCMISS_ROOT=../opencmiss  -DOPENCMISS_LIBRARIES=iron ../setup'
+                    if(params.BUILD_RELEASE) {
+                        sh 'cmake -DOPENCMISS_ROOT=../opencmiss  -DOPENCMISS_LIBRARIES=iron -DOPENCMISS_CONFIG_BUILD_TYPE=Release ../setup'
+                    }
+                    if(params.BUILD_DEBUG) {
+                        sh 'cmake -DOPENCMISS_ROOT=../opencmiss  -DOPENCMISS_LIBRARIES=iron -DOPENCMISS_CONFIG_BUILD_TYPE=Debug ../setup'
+                    }
                 }
             }
             stage('Ubuntu 14.04 Make Libraries') {
@@ -64,17 +89,32 @@ parallel 'Ubuntu 16.04': {
             }
             stage('Ubuntu 14.04 Configure Tests') {
                 dir('./test_framework-build') {
-                    sh 'cmake -DOpenCMISSLibs_DIR=/home/opencmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} -DTEST_DB=test_db/tests ../test_framework'
+                    if(params.BUILD_RELEASE) {
+                        sh 'cmake -DOpenCMISSLibs_DIR=/home/opencmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} -DTEST_DB=test_db/tests -DOPENCMISS_CONFIG_BUILD_TYPE=Release ../test_framework'
+                    }
+                    if(params.BUILD_DEBUG) {
+                        sh 'cmake -DOpenCMISSLibs_DIR=/home/opencmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} -DTEST_DB=test_db/tests -DOPENCMISS_CONFIG_BUILD_TYPE=Debug ../test_framework'
+                    }
                 }
             }
             stage('Ubuntu 14.04 Make Tests') {
                 dir('./test_framework-build') {
-                    sh '''#!/bin/bash
-                    source /home/opencmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/virtual_environments/oclibs_venv_py27_release/bin/activate
-                    export PYTHONPATH=$PYTHONPATH:/home/opencmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/lib/python2.7/opencmiss.iron/
-                    make
-                    deactivate
-                    '''
+                    if(params.BUILD_RELEASE) {
+                        sh '''#!/bin/bash
+                        source /home/opencmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/virtual_environments/oclibs_venv_py27_release/bin/activate
+                        export PYTHONPATH=$PYTHONPATH:/home/opencmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/lib/python2.7/opencmiss.iron/
+                        make
+                        deactivate
+                        '''
+                    }
+                    if(params.BUILD_DEBUG) {
+                        sh '''#!/bin/bash
+                        source /home/opencmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/virtual_environments/oclibs_venv_py27_debug/bin/activate
+                        export PYTHONPATH=$PYTHONPATH:/home/opencmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/lib/python2.7/opencmiss.iron/
+                        make
+                        deactivate
+                        '''
+                    }
                 }
             }
         }
