@@ -1,16 +1,8 @@
 
 node('Mac10.12.3') {
-    ws ('/Users/cmiss/jenkins/workspace/OpenCMISS_Dependencies_MacOS') {
+    ws ('/Users/cmiss/jenkins/workspace/OpenCMISS_MacOS') {
         stage('Prepare') {
-            dir('./opencmiss_libraries') {
-                deleteDir()
-            }
-            dir('./opencmiss_libraries') {
-                writeFile file:'ignore', text:''
-            }
-            dir('./setup_libraries-build') {
-                deleteDir()
-            }
+            sh 'mkdir -p opencmiss'
         }
         stage('Clone') {
             dir('./setup') {
@@ -21,23 +13,58 @@ node('Mac10.12.3') {
             }
         }
         stage('Configure Libraries') {
-            dir('./setup_libraries-build') {
-                sh 'cmake  -DOPENCMISS_SETUP_TYPE=libraries -DOPENCMISS_LIBRARIES_ROOT=../opencmiss_libraries -DOPENCMISS_DEPENDENCIES_INSTALL_PREFIX=/Users/cmiss/jenkins/workspace/OpenCMISS_Dependencies_MacOS/opencmiss_dependencies/install -DOPENCMISS_CMAKE_MODULE_PATH=/Users/cmiss/jenkins/workspace/OpenCMISS_Dependencies_MacOS/opencmiss_dependencies/install/share/cmake/Modules ../setup'
+            dir('./setup-build') {
+                if (params.BUILD_DEBUG) {
+                    sh 'cmake -DOPENCMISS_ROOT=../opencmiss DOPENCMISS_LIBRARIES=iron -DOPENCMISS_CONFIG_BUILD_TYPE=Debug ../setup'
+                }
+                else {
+                    sh 'cmake -DOPENCMISS_ROOT=../opencmiss DOPENCMISS_LIBRARIES=iron -DOPENCMISS_CONFIG_BUILD_TYPE=Release ../setup'
+                }
             }
         }
         stage('Make Libraries') {
-            dir('./setup_libraries-build') {
+            dir('./setup-build') {
                 sh 'make'
             }
         }
         stage('Configure Tests') {
             dir('./test_framework-build') {
-                sh 'cmake -DOpenCMISSLibs_DIR=/Users/cmiss/jenkins/workspace/OpenCMISS_Dependencies_MacOS/opencmiss_libraries/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} ../test_framework'
+            if (params.BUILD_DEBUG) {
+                sh '''#!/bin/bash
+                source /Users/cmiss/jenkins/workspace/OpenCMISS_MacOS/opencmiss/install/virtual_environments/oclibs_venv_py37_debug/bin/activate
+                export PYTHONPATH=$PYTHONPATH:/Users/cmiss/jenkins/workspace/OpenCMISS_MacOS/opencmiss/install/lib/python3.7/opencmiss.iron/
+                cmake -DOpenCMISSLibs_DIR=/Users/cmiss/jenkins/workspace/OpenCMISS_MacOS/opencmiss/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} -DTEST_DB=test_db/tests ../test_framework
+                deactivate
+                '''
+            }
+            else
+            {
+                sh '''#!/bin/bash
+                source /Users/cmiss/jenkins/workspace/OpenCMISS_MacOS/opencmiss/install/virtual_environments/oclibs_venv_py37_release/bin/activate
+                export PYTHONPATH=$PYTHONPATH:/Users/cmiss/jenkins/workspace/OpenCMISS_MacOS/opencmiss/install/lib/python3.7/opencmiss.iron/
+                cmake -DOpenCMISSLibs_DIR=/Users/cmiss/jenkins/workspace/OpenCMISS_MacOS/opencmiss/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} -DTEST_DB=test_db/tests ../test_framework
+                deactivate
+                '''            }
             }
         }
         stage('Make Tests') {
             dir('./test_framework-build') {
-                sh 'make'
+                if (params.BUILD_DEBUG) {
+                    sh '''#!/bin/bash
+                    source /Users/cmiss/jenkins/workspace/OpenCMISS_MacOS/opencmiss/install/virtual_environments/oclibs_venv_py37_debug/bin/activate
+                    export PYTHONPATH=$PYTHONPATH:/Users/cmiss/jenkins/workspace/OpenCMISS_MacOS/opencmiss/install/lib/python3.7/opencmiss.iron/
+                    make
+                    deactivate
+                    '''
+                }
+                else {
+                    sh '''#!/bin/bash
+                    source /Users/cmiss/jenkins/workspace/OpenCMISS_MacOS/opencmiss/install/virtual_environments/oclibs_venv_py37_release/bin/activate
+                    export PYTHONPATH=$PYTHONPATH:/Users/cmiss/jenkins/workspace/OpenCMISS_MacOS/opencmiss/install/lib/python3.7/opencmiss.iron/
+                    make
+                    deactivate
+                    '''
+                }
             }
         }
     }

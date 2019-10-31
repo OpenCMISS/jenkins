@@ -1,37 +1,5 @@
 
-parallel 'hpc3-gcc': {
-    node('hpc3') {
-        stage('HPC3 Clean') {
-            if (params.BUILD_CLEAN) {
-                cleanSetup()
-            }
-        }
-        stage('HPC3 Update') {
-            if (!params.BUILD_CLEAN) {
-                updateSource()
-            }
-        }
-        stage('HPC3 Configure') {
-            sh 'mkdir -p opencmiss'
-            dir('./setup') {
-                git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
-            }
-            dir('./setup-build') {
-                sh '/hpc_atog/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss ../setup'
-            }
-        }
-        stage('HPC3 Make') {
-            dir('./setup-build') {
-                sh 'make'
-            }
-        }
-        stage('HPC3 Test') {
-            dir('./opencmiss/build/manage/release/config/Release') {
-                sh 'make keytests'
-            }
-        }
-    }
-}, 'hpc6-intel': {
+parallel 'hpc6-intel': {
     node('hpc6') {
         stage('HPC6 Clean') {
             if (params.BUILD_CLEAN) {
@@ -49,29 +17,56 @@ parallel 'hpc3-gcc': {
                 git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
             }
             dir('./setup-build') {
-                sh '''
+                sh """#!/bin/bash
                   . /opt/intel/compilers_and_libraries_2017/linux/bin/compilervars.sh intel64
-                  /hpc_atog/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss ../setup
-                '''
+                  export FC=ifort
+                  export CC=icc
+                  export CXX=icc
+                  export MPICH_FC=ifort
+                  export MPICH_CC=icc
+                  export MPICH_CXX=icc
+                  export CMAKE_Fortran_COMPILER=ifort
+                  export CMAKE_C_COMPILER=icc
+                  export CMAKE_CXX_COMPILER=icc
+                  /hpc_atog/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup
+                """
             }
         }
         stage('HPC6 Make') {
             dir('./setup-build') {
-                sh '''
+                sh """#!/bin/bash
                   . /opt/intel/compilers_and_libraries_2017/linux/bin/compilervars.sh intel64
+                  export FC=ifort
+                  export CC=icc
+                  export CXX=icc
+                  export MPICH_FC=ifort
+                  export MPICH_CC=icc
+                  export MPICH_CXX=icc
+                  export CMAKE_Fortran_COMPILER=ifort
+                  export CMAKE_C_COMPILER=icc
+                  export CMAKE_CXX_COMPILER=icc
                   make
-                '''
+                """
             }
         }
         stage('HPC6 Test') {
             dir('./setup-build') {
-                sh '''
+                sh """#!/bin/bash
                   . /opt/intel/compilers_and_libraries_2017/linux/bin/compilervars.sh intel64
+                  export FC=ifort
+                  export CC=icc
+                  export CXX=icc
+                  export MPICH_FC=ifort
+                  export MPICH_CC=icc
+                  export MPICH_CXX=icc
+                  export CMAKE_Fortran_COMPILER=ifort
+                  export CMAKE_C_COMPILER=icc
+                  export CMAKE_CXX_COMPILER=icc
                   make keytests
-                '''
+                """
             }
         }
-    }
+   }   
 }, 'hpc5-mpich': {
     node('hpc5') {
         stage('HPC5 Clean') {
@@ -90,29 +85,35 @@ parallel 'hpc3-gcc': {
                 git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
             }
             dir('./setup-build') {
-                sh '''
+                sh """#!/bin/bash
                   source /etc/profile.d/modules.sh
                   module load mpi/mpich-3.2-x86_64
-                  /hpc/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss ../setup
-                '''
+                  source ~/python3.env.hpc5/bin/activate
+                  /hpc/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup
+                  deactivate
+                """
             }
         }
         stage('HPC5 Make') {
             dir('./setup-build') {
-                sh '''
+                sh """#!/bin/bash
                   source /etc/profile.d/modules.sh
                   module load mpi/mpich-3.2-x86_64
+                  source ~/python3.env.hpc5/bin/activate
                   make
-                '''
+                  deactivate
+                """
             }
         }
         stage('HPC5 Test') {
             dir('./setup-build') {
-                sh '''
+                sh """#!/bin/bash
                   source /etc/profile.d/modules.sh
                   module load mpi/mpich-3.2-x86_64
+                  source ~/python3.env.hpc5/bin/activate
                   make keytests
-                '''
+                  deactivate
+                """
             }
         }
     }

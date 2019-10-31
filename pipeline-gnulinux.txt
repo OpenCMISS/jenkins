@@ -4,6 +4,9 @@ parallel 'Ubuntu 16.04': {
             if (params.BUILD_CLEAN) {
                 cleanSetup()
             }
+            if (params.DEEP_CLEAN) {
+                cleanSetup()
+            }
         }
         stage('Ubuntu 16.04 Update') {
             if (!params.BUILD_CLEAN) {
@@ -26,7 +29,7 @@ parallel 'Ubuntu 16.04': {
         }
         stage('Ubuntu 16.04 Make') {
             dir('./setup-build') {
-            	sh 'make'
+                sh 'make'
             }
         }
         stage('Ubuntu 16.04 Test') {

@@ -4,6 +4,13 @@ node('Mac10.12.3') {
         if (params.BUILD_CLEAN) {
             cleanSetup()
         }
+        if (params.DEEP_CLEAN) {
+            cleanSetup()
+            sh '''
+            rm -rf opencmiss
+            rm -rf setup-build
+            '''
+        }
     }
     stage('Update') {
         if (!params.BUILD_CLEAN) {
@@ -16,32 +23,68 @@ node('Mac10.12.3') {
             git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
         }
         dir('./setup-build') {
-            sh 'cmake -DOPENCMISS_ROOT=../opencmiss ../setup'
+            if (params.BUILD_DEBUG) {
+                sh '''
+                cmake -DOPENCMISS_LIBRARIES=iron -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_CONFIG_BUILD_TYPE=Debug ../setup
+                '''
+            }
+            if (params.BUILD_RELEASE) {
+                sh '''
+                cmake -DOPENCMISS_LIBRARIES=iron -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_CONFIG_BUILD_TYPE=Release ../setup
+                '''
+            }
         }
     }
     stage('Make') {
-        dir('./setup-build') {
-        	sh 'make'
+        dir('./setup-build') {         
+            sh '''
+        	make
+            '''
         }
     }
     stage('Test') {
-        dir('./opencmiss/build/manage/release/config/Release') {
-            sh 'make keytests'
+        if (params.BUILD_DEBUG) {
+            dir('./opencmiss/build/manage/release/config/Debug') {
+                sh '''
+        	    make keytests
+                '''
+             }
+        }
+        if (params.BUILD_RELEASE) {
+            dir('./opencmiss/build/manage/release/config/Release') {
+                sh '''
+        	    make keytests
+                '''
+            }
         }
     }
     stage('Package') {
-        dir('./opencmiss/build/manage/release/') {
-            if (params.DO_RELEASE) {
-                sh 'cmake -DOPENCMISS_RELEASE=ON .'
-            } else {
-                sh 'cmake -DOPENCMISS_RELEASE=OFF .'
+        if(params.BUILD_RELEASE) {
+            dir('./opencmiss/build/manage/release/') {
+                if (params.DO_RELEASE) {
+                    sh 'cmake -DOPENCMISS_RELEASE=ON .'
+                } else {
+                    sh 'cmake -DOPENCMISS_RELEASE=OFF .'
+                }
+                sh 'make package_sdk'
             }
-            sh 'make package_sdk'
+        }
+        if(params.BUILD_debug) {
+            dir('./opencmiss/build/manage/debug/') {
+                if (params.DO_RELEASE) {
+                    sh 'cmake -DOPENCMISS_RELEASE=ON .'
+                } else {
+                    sh 'cmake -DOPENCMISS_RELEASE=OFF .'
+                }
+                sh 'make package_sdk'
+            }
         }
     }
     stage('Archive') {
-        dir('./opencmiss/build/manage/release/packaging/sdk/package/') {
-            archiveArtifacts artifacts: 'OpenCMISS-Libraries*'
+        if(params.BUILD_RELEASE) {
+            dir('./opencmiss/build/manage/release/packaging/sdk/package/') {
+                archiveArtifacts artifacts: 'OpenCMISS-Libraries*'
+            }
         }
     }
     stage('Finish') {

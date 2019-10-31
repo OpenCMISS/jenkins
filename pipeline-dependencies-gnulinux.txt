@@ -1,61 +1,57 @@
-parallel 'Ubuntu 16.04': {
+parallel 'hpc6-gcc': {
     node('Ubuntu_16.04_bioeng49') {
-        stage('Ubuntu 16.04 Clean') {
+        stage('HPC6 Clean') {
             if (params.BUILD_CLEAN) {
                 cleanSetup()
+                sh 'rm -rf opencmiss'
             }
         }
-        stage('Ubuntu 16.04 Update') {
+        stage('HPC6 Update') {
             if (!params.BUILD_CLEAN) {
                 updateSource()
             }
         }
-        stage('Ubuntu 16.04 Configure') {
-            sh 'mkdir -p opencmiss_dependencies'
+        stage('HPC6 Configure') {
+            sh 'mkdir -p opencmiss'
             dir('./setup') {
                 git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
             }
-    		dir('./setup-build') {
-    			sh 'cmake  -DOPENCMISS_SETUP_TYPE=dependencies -DOPENCMISS_DEPENDENCIES_ROOT=../opencmiss_dependencies ../setup'
-    		}
-        }
-        stage('Ubuntu 16.04 Make') {
             dir('./setup-build') {
-            	sh 'make'
+                sh '''
+                #source /etc/profile.d/modules.sh
+                #module load mpi/mpich-3.2-x86_64
+                #export https_proxy=proxy.bioeng.auckland.ac.nz:8080
+                #export FC=mpif90
+                #export CC=mpicc
+                #export CXX=mpicxx
+                #export CMAKE_Fortran_COMPILER=mpif90
+                #export CMAKE_C_COMPILER=mpicc
+                #export CMAKE_CXX_COMPILER=mpicxx
+                #/hpc_atog/cmiss/cmake-3.7.2-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup
+                cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup
+                '''
             }
         }
-        stage('Ubuntu 16.04 Finish') {
-                echo "Finish"
-        }
-    }
-}, 'Ubuntu 14.04': {
-    node('1034_Ubuntu') {
-        stage('Ubuntu 14.04 Clean') {
-            if (params.BUILD_CLEAN) {
-                cleanSetup()
-            }
-        }
-        stage('Ubuntu 14.04 Update') {
-            if (!params.BUILD_CLEAN) {
-                updateSource()
-            }
-        }
-        stage('Ubuntu 14.04 Configure') {
-            sh 'mkdir -p opencmiss_dependencies'
-            dir('./setup') {
-                git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
-            }
-    		dir('./setup-build') {
-    			sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DOPENCMISS_SETUP_TYPE=dependencies -DOPENCMISS_DEPENDENCIES_ROOT=../opencmiss_dependencies ../setup'
-    		}
-        }
-        stage('Ubuntu 14.04 Make') {
+        stage('HPC6 Make') {
             dir('./setup-build') {
-            	sh 'make'
+                sh '''
+                #source /etc/profile.d/modules.sh
+                #module load mpi/mpich-3.2-x86_64
+                #export https_proxy=proxy.bioeng.auckland.ac.nz:8080
+                #export FC=mpif90
+                #export CC=mpicc
+                #export CXX=mpicxx
+                #export CMAKE_Fortran_COMPILER=mpif90
+                #export CMAKE_C_COMPILER=mpicc
+                #export CMAKE_CXX_COMPILER=mpicxx
+                make
+                '''
             }
         }
-        stage('Ubuntu 14.04 Finish') {
-                echo "Finish"
+        stage('HPC6 Test') {
+            dir('./opencmiss/build/manage/release/config/Release') {
+                sh 'make keytests'
+            }
         }
     }
 }
