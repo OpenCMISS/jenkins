@@ -1,0 +1,90 @@
+parallel 'Linux Intel': {
+    node('Ubuntu_16.04_bioeng49') {
+        stage('Linux Intel Clean') {
+            if (params.BUILD_CLEAN) {
+                cleanSetup()
+            }
+            if (params.DEEP_CLEAN) {
+                cleanSetup()
+            }
+        }
+        stage('Linux Intel Update') {
+            if (!params.BUILD_CLEAN) {
+                updateSource()
+            }
+        }
+        stage('Linux Intel Configure') {
+            sh 'mkdir -p opencmiss'
+            dir('./setup') {
+                git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
+            }
+    		dir('./setup-build') {
+                sh """#!/bin/bash
+                . /home/intel/bin/compilervars.sh -arch intel64 -platform linux
+                export FC=ifort
+                export CC=icc
+                export CXX=icc
+                export MPICH_FC=ifort
+                export MPICH_CC=icc
+                export MPICH_CXX=icc
+                export CMAKE_Fortran_COMPILER=ifort
+                export CMAKE_C_COMPILER=icc
+                export CMAKE_CXX_COMPILER=icc
+                cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup
+                """
+    		}
+        }
+        stage('Linux Intel Make') {
+            dir('./setup-build') {
+                sh """#!/bin/bash
+                . /home/intel/bin/compilervars.sh -arch intel64 -platform linux
+                export FC=ifort
+                export CC=icc
+                export CXX=icc
+                export MPICH_FC=ifort
+                export MPICH_CC=icc
+                export MPICH_CXX=icc
+                export CMAKE_Fortran_COMPILER=ifort
+                export CMAKE_C_COMPILER=icc
+                export CMAKE_CXX_COMPILER=icc
+                make
+                """
+            }
+        }
+        stage('Linux Intel Test') {
+            dir('./opencmiss/build/manage/release/config/Release') {
+                sh """#!/bin/bash
+                . /home/intel/bin/compilervars.sh -arch intel64 -platform linux
+                export FC=ifort
+                export CC=icc
+                export CXX=icc
+                export MPICH_FC=ifort
+                export MPICH_CC=icc
+                export MPICH_CXX=icc
+                export CMAKE_Fortran_COMPILER=ifort
+                export CMAKE_C_COMPILER=icc
+                export CMAKE_CXX_COMPILER=icc
+                LD_PRELOAD=/home/intel/compilers_and_libraries_2019.3.199/linux/mkl/lib/intel64_lin/libmkl_core.so:/home/intel/compilers_and_libraries_2019.3.199/linux/mkl/lib/intel64_lin/libmkl_sequential.so make keytests
+                """
+            }
+        }
+        stage('Linux Intel Package') {
+            dir('./opencmiss/build/manage/release/') {
+                if (params.DO_RELEASE) {
+                    sh 'cmake -DOPENCMISS_RELEASE=ON .'
+                } else {
+                    sh 'cmake -DOPENCMISS_RELEASE=OFF .'
+                }
+                sh 'make package_sdk'
+            }
+        }        
+        stage('Linux Intel Archive') {
+            dir('./opencmiss/build/manage/release/packaging/sdk/package/') {
+                archiveArtifacts artifacts: 'OpenCMISS-Libraries*'
+            }
+        }
+        stage('Linux Intel Finish') {
+                echo "Finish"
+        }
+    }
+}

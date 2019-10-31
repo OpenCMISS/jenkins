@@ -19,7 +19,12 @@ parallel 'Ubuntu 16.04': {
                 git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
             }
     		dir('./setup-build') {
-                sh 'cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup'
+                if (params.BUILD_DEBUG) {
+    			    sh 'cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_CONFIG_BUILD_TYPE=Debug ../setup'
+                }
+                if (params.BUILD_RELEASE) {
+    			    sh 'cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_CONFIG_BUILD_TYPE=Release ../setup'
+                }
     		}
         }
         stage('Ubuntu 16.04 Make') {
@@ -28,23 +33,44 @@ parallel 'Ubuntu 16.04': {
             }
         }
         stage('Ubuntu 16.04 Test') {
-            dir('./opencmiss/build/manage/release/config/Release') {
-                sh 'make keytests'
+            if (params.BUILD_RELEASE) {
+                dir('./opencmiss/build/manage/release/config/Release') {
+                    sh 'make keytests'
+                }
+            }
+            if (params.BUILD_DEBUG) {
+                dir('./opencmiss/build/manage/release/config/Debug') {
+                    sh 'make keytests'
+                }
             }
         }
         stage('Ubuntu 16.04 Package') {
-            dir('./opencmiss/build/manage/release/') {
-                if (params.DO_RELEASE) {
-                    sh 'cmake -DOPENCMISS_RELEASE=ON .'
-                } else {
-                    sh 'cmake -DOPENCMISS_RELEASE=OFF .'
+            if (params.BUILD_RELEASE) {
+                dir('./opencmiss/build/manage/release/') {
+                    if (params.DO_RELEASE) {
+                        sh 'cmake -DOPENCMISS_RELEASE=ON .'
+                    } else {
+                        sh 'cmake -DOPENCMISS_RELEASE=OFF .'
+                    }
+                    sh 'make package_sdk'
                 }
-                sh 'make package_sdk'
+            }
+            if (params.BUILD_DEBUG) {
+                dir('./opencmiss/build/manage/debug/') {
+                    if (params.DO_RELEASE) {
+                        sh 'cmake -DOPENCMISS_RELEASE=ON .'
+                    } else {
+                        sh 'cmake -DOPENCMISS_RELEASE=OFF .'
+                    }
+                    sh 'make package_sdk'
+                }
             }
         }        
         stage('Ubuntu 16.04 Archive') {
-            dir('./opencmiss/build/manage/release/packaging/sdk/package/') {
-                archiveArtifacts artifacts: 'OpenCMISS-Libraries*'
+            if (params.BUILD_RELEASE) {
+                dir('./opencmiss/build/manage/release/packaging/sdk/package/') {
+                    archiveArtifacts artifacts: 'OpenCMISS-Libraries*'
+                }
             }
         }
         stage('Ubuntu 16.04 Finish') {
@@ -69,7 +95,12 @@ parallel 'Ubuntu 16.04': {
                 git branch: 'develop', url: 'https://github.com/OpenCMISS/setup.git'
             }
     		dir('./setup-build') {
-    			sh 'cmake -DOPENCMISS_ROOT=../opencmiss  -DOPENCMISS_LIBRARIES=iron ../setup'
+                if (params.BUILD_RELEASE) {
+        			sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_CONFIG_BUILD_TYPE=Release ../setup'
+                }
+                if (params.BUILD_DEBUG) {
+        			sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_CONFIG_BUILD_TYPE=Debug ../setup'
+                }
     		}
         }
         stage('Ubuntu 14.04 Make') {
@@ -78,23 +109,44 @@ parallel 'Ubuntu 16.04': {
             }
         }
         stage('Ubuntu 14.04 Test') {
-            dir('./opencmiss/build/manage/release/config/Release') {
-                sh 'make keytests'
+            if (params.BUILD_RELEASE) {
+                dir('./opencmiss/build/manage/release/config/Release') {
+                    sh 'make keytests'
+                }
+            }
+            if (params.BUILD_DEBUG) {
+                dir('./opencmiss/build/manage/release/config/Debug') {
+                    sh 'make keytests'
+                }
             }
         }
         stage('Ubuntu 14.04 Package') {
-            dir('./opencmiss/build/manage/release/') {
-                if (params.DO_RELEASE) {
-                    sh 'cmake -DOPENCMISS_RELEASE=ON .'
-                } else {
-                    sh 'cmake -DOPENCMISS_RELEASE=OFF .'
+            if (params.BUILD_RELEASE) {
+                dir('./opencmiss/build/manage/release/') {
+                    if (params.DO_RELEASE) {
+                        sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DOPENCMISS_RELEASE=ON .'
+                    } else {
+                        sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DOPENCMISS_RELEASE=OFF .'
+                    }
+                    sh 'make package_sdk'
                 }
-                sh 'make package_sdk'
+            }
+            if (params.BUILD_DEBUG) {
+                dir('./opencmiss/build/manage/debug/') {
+                    if (params.DO_RELEASE) {
+                        sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DOPENCMISS_RELEASE=ON .'
+                    } else {
+                        sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DOPENCMISS_RELEASE=OFF .'
+                    }
+                    sh 'make package_sdk'
+                }
             }
         }
         stage('Ubuntu 14.04 Archive') {
-            dir('./opencmiss/build/manage/release/packaging/sdk/package/') {
-                archiveArtifacts artifacts: 'OpenCMISS-Libraries*'
+            if (params.BUILD_RELEASE) {
+                dir('./opencmiss/build/manage/release/packaging/sdk/package/') {
+                    archiveArtifacts artifacts: 'OpenCMISS-Libraries*'
+                }
             }
         }
         stage('Ubuntu 14.04 Finish') {
