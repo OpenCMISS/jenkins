@@ -96,10 +96,10 @@ parallel 'Ubuntu 16.04': {
             }
     		dir('./setup-build') {
                 if (params.BUILD_RELEASE) {
-        			sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_CONFIG_BUILD_TYPE=Release ../setup'
+        			sh 'cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_CONFIG_BUILD_TYPE=Release ../setup'
                 }
                 if (params.BUILD_DEBUG) {
-        			sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_CONFIG_BUILD_TYPE=Debug ../setup'
+        			sh 'cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_CONFIG_BUILD_TYPE=Debug ../setup'
                 }
     		}
         }
@@ -124,9 +124,9 @@ parallel 'Ubuntu 16.04': {
             if (params.BUILD_RELEASE) {
                 dir('./opencmiss/build/manage/release/') {
                     if (params.DO_RELEASE) {
-                        sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DOPENCMISS_RELEASE=ON .'
+                        sh 'cmake -DOPENCMISS_RELEASE=ON .'
                     } else {
-                        sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DOPENCMISS_RELEASE=OFF .'
+                        sh 'cmake -DOPENCMISS_RELEASE=OFF .'
                     }
                     sh 'make package_sdk'
                 }
@@ -134,9 +134,9 @@ parallel 'Ubuntu 16.04': {
             if (params.BUILD_DEBUG) {
                 dir('./opencmiss/build/manage/debug/') {
                     if (params.DO_RELEASE) {
-                        sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DOPENCMISS_RELEASE=ON .'
+                        sh 'cmake -DOPENCMISS_RELEASE=ON .'
                     } else {
-                        sh '/home/opencmiss/cmake-3.4.3-Linux-x86_64/bin/cmake -DOPENCMISS_RELEASE=OFF .'
+                        sh 'cmake -DOPENCMISS_RELEASE=OFF .'
                     }
                     sh 'make package_sdk'
                 }
