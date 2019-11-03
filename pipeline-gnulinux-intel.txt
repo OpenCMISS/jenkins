@@ -6,6 +6,10 @@ parallel 'Linux Intel': {
             }
             if (params.DEEP_CLEAN) {
                 cleanSetup()
+                sh '''
+                rm -rf opencmiss
+                rm -rf setup-build
+                '''            
             }
         }
         stage('Linux Intel Update') {
