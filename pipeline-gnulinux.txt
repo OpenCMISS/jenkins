@@ -24,10 +24,10 @@ parallel 'Ubuntu 16.04': {
             }
     		dir('./setup-build') {
                 if (params.BUILD_DEBUG) {
-    			    sh 'cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_CONFIG_BUILD_TYPE=Debug ../setup'
+    			    sh 'cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron -DOPENCMISS_CONFIG_BUILD_TYPE=Debug ../setup'
                 }
                 if (params.BUILD_RELEASE) {
-    			    sh 'cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_CONFIG_BUILD_TYPE=Release ../setup'
+    			    sh 'cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron -DOPENCMISS_CONFIG_BUILD_TYPE=Release ../setup'
                 }
     		}
         }
@@ -107,10 +107,10 @@ parallel 'Ubuntu 16.04': {
             }
     		dir('./setup-build') {
                 if (params.BUILD_RELEASE) {
-        			sh 'cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_CONFIG_BUILD_TYPE=Release ../setup'
+        			sh 'cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron -DOPENCMISS_CONFIG_BUILD_TYPE=Release ../setup'
                 }
                 if (params.BUILD_DEBUG) {
-        			sh 'cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_CONFIG_BUILD_TYPE=Debug ../setup'
+        			sh 'cmake -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron -DOPENCMISS_CONFIG_BUILD_TYPE=Debug ../setup'
                 }
     		}
         }
