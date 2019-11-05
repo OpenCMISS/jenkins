@@ -30,10 +30,21 @@ parallel 'Ubuntu 16.04': {
             stage('Ubuntu 16.04 Configure Tests') {
                 dir('./test_framework-build') {
                     if(params.BUILD_RELEASE) {
-                        sh 'cmake -DOpenCMISSLibs_DIR=/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} -DTEST_DB=test_db/tests -DOPENCMISS_CONFIG_BUILD_TYPE=Release ../test_framework'
+                        sh '''#!/bin/bash
+                        source /home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/virtual_environments/oclibs_venv_py37_release/bin/activate
+                    export PYTHONPATH=$PYTHONPATH:/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/lib/python3.7/opencmiss.iron/
+                        cmake -DOpenCMISSLibs_DIR=/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} -DTEST_DB=test_db/tests -DOPENCMISS_CONFIG_BUILD_TYPE=Release ../test_framework
+                        deactivate
+                        '''
                     }
                     if(params.BUILD_DEBUG) {
-                        sh 'cmake -DOpenCMISSLibs_DIR=/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} -DTEST_DB=test_db/tests -DOPENCMISS_CONFIG_BUILD_TYPE=Debug ../test_framework'
+                         sh '''#!/bin/bash
+                         source /home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/virtual_environments/oclibs_venv_py37_release/bin/activate
+                         export PYTHONPATH=$PYTHONPATH:/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/lib/python3.7/opencmiss.iron/
+
+                        cmake -DOpenCMISSLibs_DIR=/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} -DTEST_DB=test_db/tests -DOPENCMISS_CONFIG_BUILD_TYPE=Debug ../test_framework
+                        deactivate
+                        '''
                     }
                 }
             }
