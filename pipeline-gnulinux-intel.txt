@@ -40,7 +40,7 @@ parallel 'Linux Intel': {
         }
         stage('Linux Intel Make') {
             dir('./setup-build') {
-                sh """#!/bin/bash
+                sh '''#!/bin/bash
                 . /home/intel/bin/compilervars.sh -arch intel64 -platform linux
                 export FC=ifort
                 export CC=icc
@@ -55,12 +55,12 @@ parallel 'Linux Intel': {
                 export PYTHONPATH=/home/cmiss/python3.7.env/lib/python3.7/site-packages/:$PYTHONPATH
                 make
                 deactivate
-                """
+                '''
             }
         }
         stage('Linux Intel Test') {
             dir('./opencmiss/build/manage/release/config/Release') {
-                sh """#!/bin/bash
+                sh '''#!/bin/bash
                 . /home/intel/bin/compilervars.sh -arch intel64 -platform linux
                 export FC=ifort
                 export CC=icc
@@ -75,7 +75,7 @@ parallel 'Linux Intel': {
                 export PYTHONPATH=/home/cmiss/python3.7.env/lib/python3.7/site-packages/:$PYTHONPATH
 LD_PRELOAD=/home/intel/compilers_and_libraries_2019.3.199/linux/mkl/lib/intel64_lin/libmkl_core.so:/home/intel/compilers_and_libraries_2019.3.199/linux/mkl/lib/intel64_lin/libmkl_sequential.so make keytests
                 deactivate
-                """
+                '''
             }
         }
         stage('Linux Intel Package') {
