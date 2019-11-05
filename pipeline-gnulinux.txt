@@ -33,18 +33,33 @@ parallel 'Ubuntu 16.04': {
         }
         stage('Ubuntu 16.04 Make') {
             dir('./setup-build') {
-                sh 'make'
+                sh '''#!/bin/bash
+                   source /home/cmiss/python3.7.env/bin/activate
+                   export PYTHONPATH=/home/cmiss/python3.7.env/lib/python3.7/site-packages/:$PYTHONPATH
+                   make
+                   deactivate
+                '''
             }
         }
         stage('Ubuntu 16.04 Test') {
             if (params.BUILD_RELEASE) {
                 dir('./opencmiss/build/manage/release/config/Release') {
-                    sh 'make keytests'
+                sh '''#!/bin/bash
+                   source /home/cmiss/python3.7.env/bin/activate
+                   export PYTHONPATH=/home/cmiss/python3.7.env/lib/python3.7/site-packages/:$PYTHONPATH
+                   make keytests
+                   deactivate
+                '''
                 }
             }
             if (params.BUILD_DEBUG) {
                 dir('./opencmiss/build/manage/release/config/Debug') {
-                    sh 'make keytests'
+                sh '''#!/bin/bash
+                   source /home/cmiss/python3.7.env/bin/activate
+                   export PYTHONPATH=/home/cmiss/python3.7.env/lib/python3.7/site-packages/:$PYTHONPATH
+                   make keytests
+                   deactivate
+                '''
                 }
             }
         }
