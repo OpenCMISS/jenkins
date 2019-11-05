@@ -51,7 +51,10 @@ parallel 'Linux Intel': {
                 export CMAKE_Fortran_COMPILER=ifort
                 export CMAKE_C_COMPILER=icc
                 export CMAKE_CXX_COMPILER=icc
+                source /home/cmiss/python3.7.env/bin/activate
+                export PYTHONPATH=/home/cmiss/python3.7.env/lib/python3.7/site-packages/:$PYTHONPATH
                 make
+                deactivate
                 """
             }
         }
@@ -68,7 +71,10 @@ parallel 'Linux Intel': {
                 export CMAKE_Fortran_COMPILER=ifort
                 export CMAKE_C_COMPILER=icc
                 export CMAKE_CXX_COMPILER=icc
-                LD_PRELOAD=/home/intel/compilers_and_libraries_2019.3.199/linux/mkl/lib/intel64_lin/libmkl_core.so:/home/intel/compilers_and_libraries_2019.3.199/linux/mkl/lib/intel64_lin/libmkl_sequential.so make keytests
+                source /home/cmiss/python3.7.env/bin/activate
+                export PYTHONPATH=/home/cmiss/python3.7.env/lib/python3.7/site-packages/:$PYTHONPATH
+LD_PRELOAD=/home/intel/compilers_and_libraries_2019.3.199/linux/mkl/lib/intel64_lin/libmkl_core.so:/home/intel/compilers_and_libraries_2019.3.199/linux/mkl/lib/intel64_lin/libmkl_sequential.so make keytests
+                deactivate
                 """
             }
         }
