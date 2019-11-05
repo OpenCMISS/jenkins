@@ -41,16 +41,16 @@ parallel 'Ubuntu 16.04': {
                 dir('./test_framework-build') {
                 if(params.BUILD_RELEASE) {
                     sh '''#!/bin/bash
-                    source /home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/virtual_environments/oclibs_venv_py36_release/bin/activate
-                    export PYTHONPATH=$PYTHONPATH:/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/lib/python3.6/opencmiss.iron/
+                    source /home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/virtual_environments/oclibs_venv_py37_release/bin/activate
+                    export PYTHONPATH=$PYTHONPATH:/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/lib/python3.7/opencmiss.iron/
                     make
                     deactivate
                     '''                
                 }
                 if(params.BUILD_DEBUG) {
                     sh '''#!/bin/bash
-                    source /home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/virtual_environments/oclibs_venv_py36_debug/bin/activate
-                    export PYTHONPATH=$PYTHONPATH:/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/lib/python3.6/opencmiss.iron/
+                    source /home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/virtual_environments/oclibs_venv_py37_debug/bin/activate
+                    export PYTHONPATH=$PYTHONPATH:/home/cmiss/Jenkins/workspace/OpenCMISS_GNULinux/opencmiss/install/lib/python3.7/opencmiss.iron/
                     make
                     deactivate
                     '''                
