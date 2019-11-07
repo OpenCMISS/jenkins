@@ -1,5 +1,5 @@
 
-node('Windows8') {
+node('Windows10') {
     ws ('D:\\Jenkins\\workspace\\OpenCMISS_Dependencies_Windows') {
         stage('Prepare') {
             dir('./opencmiss_libraries') {
