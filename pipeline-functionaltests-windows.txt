@@ -23,7 +23,7 @@ node('Windows10') {
         stage('Configure OpenCMISS') {
             dir('./setup-build') {
               bat '''
-                 set Path=%Path;C:\Python37_x64
+                 set Path=%Path;C:\\Python37_x64
                  "C:\\Program Files\\CMake\\bin\\cmake.exe" -G"Visual Studio 14 2015 Win64" -DOPENCMISS_ROOT=../opencmiss ../setup
               '''
             }
@@ -31,7 +31,7 @@ node('Windows10') {
         stage('Build OpenCMISS') {
             dir('./setup-build') {
                 bat '''
-                    set Path=%Path;C:\Python37_x64
+                    set Path=%Path;C:\\Python37_x64
                     "C:\\Program Files\\CMake\\bin\\cmake.exe" --build . --config Release
                 '''            
             }
