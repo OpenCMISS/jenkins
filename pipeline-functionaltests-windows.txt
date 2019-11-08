@@ -22,7 +22,7 @@ node('Windows10') {
         stage('Configure OpenCMISS') {
             dir('./setup-build') {
               bat '''
-                 set Path=%Path;C:\\Python37_x64
+                 set Path=%Path;"C:\\Python37_x64"
                  "C:\\Program Files\\CMake\\bin\\cmake.exe" -G"Visual Studio 14 2015 Win64" -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup
               '''
             }
@@ -30,7 +30,7 @@ node('Windows10') {
         stage('Build OpenCMISS') {
             dir('./setup-build') {
                 bat '''
-                    set Path=%Path;C:\\Python37_x64
+                    set Path=%Path;"C:\\Python37_x64"
                     "C:\\Program Files\\CMake\\bin\\cmake.exe" --build . --config Release
                 '''            
             }
@@ -38,7 +38,7 @@ node('Windows10') {
         stage('Configure Tests') {
             dir('./test_framework-build') {
                 bat '''
-                  set Path=%Path;C:\\Python37_x64
+                  set Path=%Path;"C:\\Python37_x64"
                   call "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\vcvarsall.bat" x64 &&
                   call "C:\\Program Files (x86)\\Intel\\Composer XE 2015\\bin\\compilervars.bat" intel64 vs2015 &&
                   "C:\\Program Files\\CMake\\bin\\cmake.exe" -G"Visual Studio 14 2015 Win64" -DOpenCMISSLibs_DIR=D:\\Jenkins\\workspace\\OpenCMISS_Windows\\opencmiss\\install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} ../test_framework
@@ -48,7 +48,7 @@ node('Windows10') {
         stage('Make Tests') {
             dir('./test_framework-build') {
                 bat '''
-                  set Path=%Path;C:\\Python37_x64
+                  set Path=%Path;"C:\\Python37_x64"
                   call "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\vcvarsall.bat" x64 &&
                   call "C:\\Program Files (x86)\\Intel\\Composer XE 2015\\bin\\compilervars.bat" intel64 vs2015 &&
                   "C:\\Program Files\\CMake\\bin\\cmake.exe" --build . --config Release
