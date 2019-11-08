@@ -1,13 +1,15 @@
 
 node('Windows10') {
     ws ('D:\\Jenkins\\workspace\\OpenCMISS_Windows') {
-        stage('Prepare') {
-            dir('./opencmiss') {
-                deleteDir()
-            }
-            dir('./setup-build') {
-                deleteDir()
-            }
+        stage('Clean') {
+           if (params.BUILD_CLEAN) {
+               cleanSetup()
+           }
+        }
+        stage('Update') {
+           if (!params.BUILD_CLEAN) {
+               updateSource()
+           }
         }
         stage('Clone') {
             dir('./setup') {
