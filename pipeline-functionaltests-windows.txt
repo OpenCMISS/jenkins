@@ -21,7 +21,7 @@ node('Windows10') {
             dir('./setup-build') {
               bat '''
                  set Path=%Path;C:\\Python37_x64
-                 "C:\\Program Files\\CMake\\bin\\cmake.exe" -G"Visual Studio 14 2015 Win64" -DOPENCMISS_ROOT=../opencmiss ../setup
+                 "C:\\Program Files\\CMake\\bin\\cmake.exe" -G"Visual Studio 14 2015 Win64" -DOPENCMISS_ROOT=../opencmiss -DOPENCMISS_LIBRARIES=iron ../setup
               '''
             }
         }
