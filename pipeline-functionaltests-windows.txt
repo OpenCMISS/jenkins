@@ -5,9 +5,6 @@ node('Windows10') {
             dir('./opencmiss') {
                 deleteDir()
             }
-            dir('./opencmiss') {
-                writeFile file:'ignore', text:''
-            }
             dir('./setup-build') {
                 deleteDir()
             }
