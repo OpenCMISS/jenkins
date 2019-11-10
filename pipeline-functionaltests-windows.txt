@@ -31,7 +31,7 @@ node('Windows10') {
             dir('./setup-build') {
                 bat '''
                     setx path "C:\\Python37_x64;%path%"
-                    "C:\\Program Files\\CMake\\bin\\cmake.exe" --build . --config Release
+                    "C:\\Program Files\\CMake\\bin\\cmake.exe" --build . --config Release --verbose
                 '''            
             }
         }
