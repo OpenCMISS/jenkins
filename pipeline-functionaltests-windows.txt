@@ -39,8 +39,8 @@ node('Windows10') {
             dir('./test_framework-build') {
                 bat '''
                   setx path "C:\\Python37_x64;%path%"
-                  call "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\vcvarsall.bat" x64 &&
-                  call "C:\\Program Files (x86)\\Intel\\Composer XE 2015\\bin\\compilervars.bat" intel64 vs2015 &&
+                  #call "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\vcvarsall.bat" x64 &&
+                  #call "C:\\Program Files (x86)\\Intel\\Composer XE 2015\\bin\\compilervars.bat" intel64 vs2015 &&
                   "C:\\Program Files\\CMake\\bin\\cmake.exe" -G"Visual Studio 14 2015 Win64" -DOpenCMISSLibs_DIR=D:\\Jenkins\\workspace\\OpenCMISS_Windows\\opencmiss\\install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} ../test_framework
                 '''
             }
@@ -49,9 +49,9 @@ node('Windows10') {
             dir('./test_framework-build') {
                 bat '''
                   setx path "C:\\Python37_x64;%path%"
-                  call "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\vcvarsall.bat" x64 &&
-                  call "C:\\Program Files (x86)\\Intel\\Composer XE 2015\\bin\\compilervars.bat" intel64 vs2015 &&
-                  "C:\\Program Files\\CMake\\bin\\cmake.exe" --build . --config Release
+                  #call "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\vcvarsall.bat" x64 &&
+                  #call "C:\\Program Files (x86)\\Intel\\Composer XE 2015\\bin\\compilervars.bat" intel64 vs2015 &&
+                  "C:\\Program Files\\CMake\\bin\\cmake.exe" --build . --config Release --verbose
                 '''
             }
         }
