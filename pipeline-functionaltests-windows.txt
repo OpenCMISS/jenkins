@@ -40,7 +40,7 @@ node('Windows10') {
                 bat '''
                   call "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\Build\\vcvarsall.bat" x64
                   call "C:\\Program Files (x86)\\IntelSWTools\\compilers_and_libraries_2019\\windows\\bin\\compilervars.bat" Intel64 vs2015            
-                  "C:\\Program Files\\CMake\\bin\\cmake.exe" -G"Visual Studio 14 2015 Win64" -DOpenCMISSLibs_DIR=D:\\Jenkins\\workspace\\OpenCMISS_Windows\\opencmiss\\install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} ../test_framework
+                  "C:\\Program Files\\CMake\\bin\\cmake.exe" -G"Visual Studio 14 2015 Win64" -DOpenCMISSLibs_DIR=D:\\Jenkins\\workspace\\OpenCMISS_Windows\\opencmiss\\install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} -DTEST_DB=D:\\Jenkins\\workspace\\OpenCMISS_Windows\\test_framework-build\\test_db\\tests ../test_framework
                 '''
             }
         }
