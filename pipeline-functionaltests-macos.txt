@@ -33,7 +33,7 @@ node('Mac10.12.3') {
                 sh '''#!/bin/bash
                 source /Users/cmiss/jenkins/workspace/OpenCMISS_MacOS/opencmiss/install/virtual_environments/oclibs_venv_py37_debug/bin/activate
                 export PYTHONPATH=$PYTHONPATH:/Users/cmiss/jenkins/workspace/OpenCMISS_MacOS/opencmiss/install/lib/python3.7/opencmiss.iron/
-                cmake -DOpenCMISSLibs_DIR=/Users/cmiss/jenkins/workspace/OpenCMISS_MacOS/opencmiss/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} -DTEST_DB=test_db/tests ../test_framework
+                cmake -DOpenCMISSLibs_DIR=/Users/cmiss/jenkins/workspace/OpenCMISS_MacOS/opencmiss/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} -DTEST_DB=test_db/tests -DOPENCMISS_TOOLCHAIN=gnu -DOPENCMISS_CONFIG_BUILD_TYPE=Debug ../test_framework
                 deactivate
                 '''
             }
@@ -42,7 +42,7 @@ node('Mac10.12.3') {
                 sh '''#!/bin/bash
                 source /Users/cmiss/jenkins/workspace/OpenCMISS_MacOS/opencmiss/install/virtual_environments/oclibs_venv_py37_release/bin/activate
                 export PYTHONPATH=$PYTHONPATH:/Users/cmiss/jenkins/workspace/OpenCMISS_MacOS/opencmiss/install/lib/python3.7/opencmiss.iron/
-                cmake -DOpenCMISSLibs_DIR=/Users/cmiss/jenkins/workspace/OpenCMISS_MacOS/opencmiss/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} -DTEST_DB=test_db/tests ../test_framework
+                cmake -DOpenCMISSLibs_DIR=/Users/cmiss/jenkins/workspace/OpenCMISS_MacOS/opencmiss/install -DTEST_DB_REPO_URL=${DATABASE_URL} -DTEST_DB_REPO_BRANCH=${DATABASE_BRANCH} -DTEST_DB=test_db/tests -DOPENCMISS_TOOLCHAIN=gnu -DOPENCMISS_CONFIG_BUILD_TYPE=Release ../test_framework
                 deactivate
                 '''            }
             }
