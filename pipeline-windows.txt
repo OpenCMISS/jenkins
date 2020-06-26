@@ -17,6 +17,8 @@ node('Windows10') {
         }
         dir('./setup-build') {
             bat '''
+            setx SWIG_DIR "C:\\swigwin-4.0.1"
+            setx SWIG_EXECUTABLE "C:\\swigwin-4.0.1\\swig.exe"
             setx path "C:\\Python37_x64;C:\\swigwin-4.0.1;%path%"
             "C:\\Program Files\\CMake\\bin\\cmake.exe" -G"Visual Studio 14 2015 Win64" -DOPENCMISS_ROOT=../opencmiss ../setup
             '''
@@ -25,6 +27,8 @@ node('Windows10') {
     stage('Make') {
         dir('./setup-build') {
             bat '''
+            setx SWIG_DIR "C:\\swigwin-4.0.1"
+            setx SWIG_EXECUTABLE "C:\\swigwin-4.0.1\\swig.exe"
             setx path "C:\\Python37_x64;C:\\swigwin-4.0.1;%path%"
             "C:\\Program Files\\CMake\\bin\\cmake.exe" --build . --config Release
             '''
@@ -33,6 +37,8 @@ node('Windows10') {
     stage('Test') {
         dir('./opencmiss/build/manage/config/') {
             bat '''
+            setx SWIG_DIR "C:\\swigwin-4.0.1"
+            setx SWIG_EXECUTABLE "C:\\swigwin-4.0.1\\swig.exe"
             setx path "C:\\Python37_x64;C:\\swigwin-4.0.1;%path%"
             "C:\\Program Files\\CMake\\bin\\cmake.exe" --build . --target keytests --config Release
             '''
