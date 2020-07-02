@@ -31,7 +31,7 @@ node('Windows10') {
             dir('./setup-build') {
                 bat '''
                     set path="C:\\Python37_x64;%path%"
-                    "C:\\Program Files\\CMake\\bin\\cmake.exe" --build . --config Release --verbose
+                    "C:\\Program Files\\CMake\\bin\\cmake.exe" -G"Visual Studio 14 2015 Win64" --build . --config Release --verbose
                 '''            
             }
         }
